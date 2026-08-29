@@ -4,11 +4,11 @@ include __DIR__ . '/includes/header.php';
 ?>
 
 <!-- BREADCRUMB / HERO SUBPAGE BANNER -->
-<section class="py-section" style="background-color: var(--bg-white); border-bottom: 1px solid var(--border); padding: 50px 0;">
+<section class="subpage-banner">
     <div class="container text-center">
         <span class="hero-tagline">Rakesh Verma</span>
-        <h1 style="font-size: 42px; margin-bottom: 10px;">Biography &amp; Statement</h1>
-        <p style="color: var(--text-muted); max-width: 500px; margin: 0 auto; font-size: 15px;">Exploring structural depth, color transparent geometry, and modern interior layering.</p>
+        <h1>Biography &amp; Statement</h1>
+        <p>Exploring structural depth, color transparent geometry, and modern interior layering.</p>
     </div>
 </section>
 

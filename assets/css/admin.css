@@ -435,25 +435,68 @@ textarea.admin-form-control {
 @media (max-width: 768px) {
     body {
         flex-direction: column;
+        padding-top: 60px; /* Offset for fixed top bar */
     }
     .sidebar {
         width: 100%;
-        height: auto;
-        position: relative;
+        height: 60px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 15px;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
     }
     .sidebar-header {
-        padding: 15px;
+        border-bottom: none;
+        padding: 0;
+        width: 100%;
     }
     .sidebar-menu {
-        display: none; /* Can be toggled on mobile if needed */
+        display: none;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background-color: #152840;
+        box-shadow: 0 10px 15px rgba(0,0,0,0.15);
+        border-top: 1px solid rgba(255,255,255,0.08);
         padding: 10px 0;
+        z-index: 999;
+    }
+    .sidebar-menu.active {
+        display: block !important;
+    }
+    .sidebar-menu li {
+        margin-bottom: 0;
     }
     .sidebar-menu a {
-        padding: 10px 20px;
+        padding: 12px 24px;
+        border-left: 4px solid transparent;
+    }
+    .sidebar-menu li.active a {
+        border-left-color: var(--primary);
+        background-color: rgba(255,255,255,0.03);
+    }
+    .sidebar-footer {
+        display: none;
     }
     .main-content {
         margin-left: 0;
-        padding: 15px;
+        padding: 20px 15px;
+        width: 100%;
+    }
+    .admin-header {
+        padding: 0 0 15px 0;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 20px;
+    }
+    .admin-menu-toggle {
+        display: block !important;
     }
     .stats-row {
         grid-template-columns: 1fr;
@@ -461,5 +504,33 @@ textarea.admin-form-control {
     .form-grid {
         grid-template-columns: 1fr;
         gap: 10px;
+    }
+    .content-box {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: 15px;
+    }
+    table.admin-table {
+        min-width: 600px;
+    }
+    .admin-header-actions {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 12px !important;
+        width: 100% !important;
+    }
+    .admin-header-actions .btn-add,
+    .admin-header-actions .btn-action {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+    form button.btn-add,
+    form button[type="submit"] {
+        width: 100% !important;
+        justify-content: center !important;
+        padding: 12px 20px !important;
+    }
+    .login-body {
+        padding-top: 0 !important;
     }
 }

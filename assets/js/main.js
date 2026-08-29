@@ -2,22 +2,22 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 1. Mobile Navigation Menu Toggle
     const mobileToggle = document.querySelector('.mobile-nav-toggle');
-    const navLinks = document.querySelector('.nav-links');
+    const mainNav = document.querySelector('.main-nav');
     
-    if (mobileToggle && navLinks) {
+    if (mobileToggle && mainNav) {
         mobileToggle.addEventListener('click', function() {
-            navLinks.classList.toggle('active');
+            mainNav.classList.toggle('active');
             
             // Toggle hamburger icon between ☰ and ✕
-            const isExpanded = navLinks.classList.contains('active');
+            const isExpanded = mainNav.classList.contains('active');
             mobileToggle.innerHTML = isExpanded ? '&#10006;' : '&#9776;';
         });
         
         // Close menu when clicking a link
-        const links = navLinks.querySelectorAll('a');
+        const links = mainNav.querySelectorAll('a');
         links.forEach(link => {
             link.addEventListener('click', function() {
-                navLinks.classList.remove('active');
+                mainNav.classList.remove('active');
                 mobileToggle.innerHTML = '&#9776;';
             });
         });
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 2. Active Link Highlighting on Scroll
     const sections = document.querySelectorAll('section[id]');
-    const navItems = document.querySelectorAll('.nav-links li');
+    const navItems = document.querySelectorAll('.main-nav li');
     
     function highlightNav() {
         let scrollY = window.pageYOffset;

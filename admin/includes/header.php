@@ -28,7 +28,7 @@ require_once __DIR__ . '/../../db.php';
     <div class="main-content">
         
         <!-- Header Bar -->
-        <header class="admin-header">
+        <header class="admin-header" style="display: flex; align-items: center;">
             <div class="page-title">
                 <h1>Control Panel Dashboard</h1>
             </div>

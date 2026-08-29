@@ -13,24 +13,24 @@ include __DIR__ . '/includes/header.php';
 ?>
 
 <!-- BREADCRUMB / HERO SUBPAGE BANNER -->
-<section class="py-section" style="background-color: var(--bg-white); border-bottom: 1px solid var(--border); padding: 50px 0;">
+<section class="subpage-banner">
     <div class="container text-center">
         <span class="hero-tagline">What We Offer</span>
-        <h1 style="font-size: 42px; margin-bottom: 10px;">Art Collections &amp; Services</h1>
-        <p style="color: var(--text-muted); max-width: 550px; margin: 0 auto; font-size: 15px;">Original canvas releases, tailored interior size commissions, and hotel/corporate projects.</p>
+        <h1>Art Collections &amp; Services</h1>
+        <p>Original canvas releases, tailored interior size commissions, and hotel/corporate projects.</p>
     </div>
 </section>
 
 <!-- SERVICES GRID -->
 <section class="py-section">
     <div class="container">
-        <div class="services-grid" style="grid-template-columns: repeat(2, 1fr); gap: 40px;">
+        <div class="services-grid">
             <?php if (empty($services)): ?>
                 <p style="grid-column: span 2; text-align: center; color: var(--text-light); padding: 40px 0;">No collections configured yet.</p>
             <?php else: ?>
                 <?php foreach($services as $srv): ?>
-                    <div class="service-card" style="border-radius: var(--radius-sm); border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
-                        <div class="service-img-wrapper" style="height: 320px;">
+                    <div class="service-card">
+                        <div class="service-img-wrapper">
                             <?php if (!empty($srv['image_path']) && file_exists(__DIR__ . '/' . $srv['image_path'])): ?>
                                 <img src="<?php echo htmlspecialchars($srv['image_path']); ?>" alt="<?php echo htmlspecialchars($srv['title']); ?>" style="width:100%; height:100%; object-fit:cover;">
                             <?php else: ?>
@@ -38,15 +38,12 @@ include __DIR__ . '/includes/header.php';
                                     <span>🎨 <?php echo htmlspecialchars($srv['title']); ?></span>
                                 </div>
                             <?php endif; ?>
-                            <?php if (!empty($srv['price_range'])): ?>
-                                <span class="service-price" style="background:var(--primary); font-size: 12px; padding: 4px 10px;"><?php echo htmlspecialchars($srv['price_range']); ?></span>
-                            <?php endif; ?>
                         </div>
-                        <div class="service-body" style="padding: 30px;">
-                            <h3 style="font-size: 24px; margin-bottom: 12px; font-family: var(--font-heading);"><?php echo htmlspecialchars($srv['title']); ?></h3>
-                            <p style="font-size: 15px; line-height: 1.7; color: var(--text-muted); margin-bottom: 25px;"><?php echo htmlspecialchars($srv['description']); ?></p>
-                            <div class="service-footer" style="padding-top: 20px; border-top: 1px solid var(--border);">
-                                <a href="contact.php?service=<?php echo urlencode($srv['title']); ?>" class="btn btn-primary" style="width: 100%; text-transform: uppercase; font-size: 13.5px; letter-spacing: 0.05em; font-weight:700;">Inquire on this Collection</a>
+                        <div class="service-body">
+                            <h3><?php echo htmlspecialchars($srv['title']); ?></h3>
+                            <p><?php echo htmlspecialchars($srv['description']); ?></p>
+                            <div class="service-footer">
+                                <a href="contact.php?service=<?php echo urlencode($srv['title']); ?>" class="btn btn-primary" style="width: 100%; text-align: center; text-transform: uppercase; font-size: 13px; font-weight:700;">Inquire on this Collection</a>
                             </div>
                         </div>
                     </div>

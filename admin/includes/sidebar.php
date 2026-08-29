@@ -2,9 +2,12 @@
 $current_page = basename($_SERVER['PHP_SELF']);
 ?>
 <div class="sidebar">
-    <div class="sidebar-header">
-        <div class="sidebar-logo">🎨</div>
-        <h2>RV Art Admin</h2>
+    <div class="sidebar-header" style="display:flex; justify-content:space-between; align-items:center; width:100%;">
+        <div style="display:flex; align-items:center; gap:12px;">
+            <div class="sidebar-logo">🎨</div>
+            <h2>RV Art Admin</h2>
+        </div>
+        <button class="admin-menu-toggle" aria-label="Toggle Menu" style="display: none; font-size: 24px; background: none; border: none; cursor: pointer; color: white; outline: none;">&#9776;</button>
     </div>
     
     <ul class="sidebar-menu">
@@ -31,6 +34,11 @@ $current_page = basename($_SERVER['PHP_SELF']);
         <li class="<?php echo ($current_page == 'testimonials.php') ? 'active' : ''; ?>">
             <a href="testimonials.php">
                 <span>⭐</span> Reviews
+            </a>
+        </li>
+        <li class="<?php echo ($current_page == 'instagram.php') ? 'active' : ''; ?>">
+            <a href="instagram.php">
+                <span>🎥</span> Instagram Reels
             </a>
         </li>
         <li class="<?php echo ($current_page == 'settings.php') ? 'active' : ''; ?>">

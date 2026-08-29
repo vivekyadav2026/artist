@@ -1,0 +1,25 @@
+# Database config (sensitive)
+config.php
+
+# User uploaded images & media
+uploads/
+
+# IDE and Project Tooling
+.vscode/
+.idea/
+.gemini/
+.agents/
+/scratch/
+/brain/
+
+# System Files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Logs & Cache
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

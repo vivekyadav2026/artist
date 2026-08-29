@@ -21,11 +21,11 @@ include __DIR__ . '/includes/header.php';
 ?>
 
 <!-- BREADCRUMB / HERO SUBPAGE BANNER -->
-<section class="py-section" style="background-color: var(--bg-white); border-bottom: 1px solid var(--border); padding: 50px 0;">
+<section class="subpage-banner">
     <div class="container text-center">
         <span class="hero-tagline">Acquisitions</span>
-        <h1 style="font-size: 42px; margin-bottom: 10px;">Contact &amp; Commission</h1>
-        <p style="color: var(--text-muted); max-width: 500px; margin: 0 auto; font-size: 15px;">Send a message to discuss original canvas sales, custom murals, or framing estimates.</p>
+        <h1>Contact &amp; Commission</h1>
+        <p>Send a message to discuss original canvas sales, custom murals, or framing estimates.</p>
     </div>
 </section>
 

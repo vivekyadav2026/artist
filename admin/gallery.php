@@ -80,6 +80,75 @@ if ($action === 'delete' && $id > 0) {
         $message_type = "error";
     }
 }
+
+// Handle Edit Action
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'edit' && $id > 0) {
+    $title = trim(strip_tags($_POST['title']));
+    $category = trim(strip_tags($_POST['category']));
+    
+    if (empty($title) || empty($category)) {
+        $message = "Please provide both project title and category.";
+        $message_type = "error";
+    } else {
+        $image_path = '';
+        
+        // Handle optional new image replacement
+        if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+            $file_tmp = $_FILES['image']['tmp_name'];
+            $file_name = $_FILES['image']['name'];
+            $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+            
+            $allowed_extensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+            
+            if (!in_array($file_ext, $allowed_extensions)) {
+                $message = "Invalid image extension. Allowed: " . implode(', ', $allowed_extensions);
+                $message_type = "error";
+            } else {
+                $upload_dir = '../uploads/gallery/';
+                if (!is_dir($upload_dir)) {
+                    mkdir($upload_dir, 0777, true);
+                }
+                
+                $new_file_name = uniqid('project_', true) . '.' . $file_ext;
+                $dest_path = $upload_dir . $new_file_name;
+                
+                if (move_uploaded_file($file_tmp, $dest_path)) {
+                    $image_path = 'uploads/gallery/' . $new_file_name;
+                    
+                    // Delete old image
+                    $old_stmt = $pdo->prepare("SELECT image_path FROM gallery WHERE id = ?");
+                    $old_stmt->execute([$id]);
+                    $old_img = $old_stmt->fetchColumn();
+                    if ($old_img && file_exists('../' . $old_img)) {
+                        @unlink('../' . $old_img);
+                    }
+                } else {
+                    $message = "Failed to upload image.";
+                    $message_type = "error";
+                }
+            }
+        }
+        
+        if ($message_type !== 'error') {
+            try {
+                if (!empty($image_path)) {
+                    $stmt = $pdo->prepare("UPDATE gallery SET title = ?, category = ?, image_path = ? WHERE id = ?");
+                    $stmt->execute([$title, $category, $image_path, $id]);
+                } else {
+                    $stmt = $pdo->prepare("UPDATE gallery SET title = ?, category = ? WHERE id = ?");
+                    $stmt->execute([$title, $category, $id]);
+                }
+                
+                $message = "Gallery item updated successfully!";
+                $message_type = "success";
+                $action = 'list';
+            } catch (PDOException $e) {
+                $message = "Database error: " . $e->getMessage();
+                $message_type = "error";
+            }
+        }
+    }
+}
 ?>
 
 <div class="admin-header-actions" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
@@ -136,7 +205,10 @@ if ($action === 'delete' && $id > 0) {
                             <td><span class="status-pill contacted" style="background-color:#e0f2fe; color:#0369a1;"><?php echo htmlspecialchars($item['category']); ?></span></td>
                             <td><?php echo date('d M Y, h:i A', strtotime($item['created_at'])); ?></td>
                             <td>
-                                <a href="gallery.php?action=delete&id=<?php echo $item['id']; ?>" class="btn-action delete" onclick="return confirm('Are you sure you want to delete this image? This will permanently delete the file from the server.');">Delete</a>
+                                <div style="display:flex; gap:6px;">
+                                    <a href="gallery.php?action=edit&id=<?php echo $item['id']; ?>" class="btn-action edit">Edit</a>
+                                    <a href="gallery.php?action=delete&id=<?php echo $item['id']; ?>" class="btn-action delete" onclick="return confirm('Are you sure you want to delete this image? This will permanently delete the file from the server.');">Delete</a>
+                                </div>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -175,7 +247,49 @@ if ($action === 'delete' && $id > 0) {
             <button type="submit" class="btn-add" style="border:none; cursor:pointer;">💾 Start Upload</button>
         </form>
     </div>
-<?php endif; ?>
+<?php elseif ($action === 'edit' && $id > 0): 
+    $stmt = $pdo->prepare("SELECT * FROM gallery WHERE id = ?");
+    $stmt->execute([$id]);
+    $item = $stmt->fetch();
+    if (!$item) {
+        echo "<div class='admin-alert admin-alert-error'>Gallery item not found.</div>";
+    } else {
+?>
+    <div class="content-box">
+        <form method="POST" action="gallery.php?action=edit&id=<?php echo $id; ?>" enctype="multipart/form-data">
+            <div class="form-grid">
+                <div class="admin-form-group">
+                    <label for="title">Project / Work Title *</label>
+                    <input type="text" id="title" name="title" class="admin-form-control" value="<?php echo htmlspecialchars($item['title']); ?>" required>
+                </div>
+                <div class="admin-form-group">
+                    <label for="category">Category *</label>
+                    <select id="category" name="category" class="admin-form-control" required>
+                        <option value="">Select Category</option>
+                        <option value="Interior" <?php echo (strtolower($item['category']) === 'interior') ? 'selected' : ''; ?>>Teal &amp; Cool Tones</option>
+                        <option value="Exterior" <?php echo (strtolower($item['category']) === 'exterior') ? 'selected' : ''; ?>>Orange &amp; Red Tones</option>
+                        <option value="Texture" <?php echo (strtolower($item['category']) === 'texture') ? 'selected' : ''; ?>>Textured Acrylics</option>
+                        <option value="Commercial" <?php echo (strtolower($item['category']) === 'commercial') ? 'selected' : ''; ?>>Canvas Prints</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="admin-form-group">
+                <label for="image">Replace Image (Optional)</label>
+                <input type="file" id="image" name="image" class="admin-form-control" accept="image/*">
+                <small style="color:var(--text-muted); display:block; margin-top:5px;">Leave blank to keep the current image. Allowed types: JPG, JPEG, PNG, WEBP.</small>
+                <?php if (!empty($item['image_path'])): ?>
+                    <div style="margin-top: 15px;">
+                        <p style="font-size: 13px; font-weight:700; margin-bottom:5px;">Current Image Preview:</p>
+                        <img src="../<?php echo htmlspecialchars($item['image_path']); ?>" style="max-height: 150px; border-radius: 4px; border: 1px solid var(--border);" alt="Current gallery item">
+                    </div>
+                <?php endif; ?>
+            </div>
+
+            <button type="submit" class="btn-add" style="border:none; cursor:pointer;">💾 Save Changes</button>
+        </form>
+    </div>
+<?php } endif; ?>
 
 <?php
 include __DIR__ . '/includes/footer.php';

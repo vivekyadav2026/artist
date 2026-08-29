@@ -25,6 +25,14 @@ try {
     $testimonials = [];
 }
 
+// Fetch all instagram videos
+try {
+    $instagram_stmt = $pdo->query("SELECT * FROM instagram_videos ORDER BY id DESC");
+    $instagram_videos = $instagram_stmt->fetchAll();
+} catch (Exception $e) {
+    $instagram_videos = [];
+}
+
 // Fetch service areas array
 $service_areas_raw = getSetting('service_areas', 'Delhi, Noida, Gurgaon, Ghaziabad, Faridabad');
 $service_areas = array_map('trim', explode(',', $service_areas_raw));
@@ -193,9 +201,6 @@ include __DIR__ . '/includes/header.php';
                                         <span>🎨 <?php echo htmlspecialchars($srv['title']); ?></span>
                                     </div>
                                 <?php endif; ?>
-                                <?php if (!empty($srv['price_range'])): ?>
-                                    <span class="service-price"><?php echo htmlspecialchars($srv['price_range']); ?></span>
-                                <?php endif; ?>
                             </div>
                             <div class="service-body">
                                 <h3><?php echo htmlspecialchars($srv['title']); ?></h3>
@@ -259,25 +264,30 @@ include __DIR__ . '/includes/header.php';
                     <p style="grid-column: span 3; text-align: center; color: var(--text-light);">No project gallery images uploaded yet.</p>
                 <?php else: ?>
                     <?php foreach($gallery as $item): ?>
-                        <div class="gallery-item" data-category="<?php echo htmlspecialchars(strtolower($item['category'])); ?>">
-                            <?php if (!empty($item['image_path']) && file_exists(__DIR__ . '/' . $item['image_path'])): ?>
-                                <img src="<?php echo htmlspecialchars($item['image_path']); ?>" alt="<?php echo htmlspecialchars($item['title']); ?>">
-                            <?php else: ?>
-                                <div class="placeholder-svg-bg" style="background: linear-gradient(135deg, #1e293b, #334155);">
-                                    <span>📸 <?php echo htmlspecialchars($item['title']); ?></span>
+                        <div class="gallery-item" data-category="<?php echo htmlspecialchars(strtolower($item['category'])); ?>" style="padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: white;">
+                            <div class="gallery-item-inner" style="position: relative; overflow: hidden; aspect-ratio: 4/3; border-radius: 4px;">
+                                <?php if (!empty($item['image_path']) && file_exists(__DIR__ . '/' . $item['image_path'])): ?>
+                                    <img src="<?php echo htmlspecialchars($item['image_path']); ?>" alt="<?php echo htmlspecialchars($item['title']); ?>" style="width:100%; height:100%; object-fit:cover; display:block;">
+                                <?php else: ?>
+                                    <div class="placeholder-svg-bg" style="background: linear-gradient(135deg, #1e293b, #334155);">
+                                        <span>📸 <?php echo htmlspecialchars($item['title']); ?></span>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                            <div class="gallery-info" style="padding: 12px 2px 2px 2px;">
+                                <h4 style="font-size: 16px; margin: 0 0 6px 0; font-family: var(--font-heading); color: var(--text-ink); line-height: 1.3;"><?php echo htmlspecialchars($item['title']); ?></h4>
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
+                                    <span style="font-size: 11px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em;">
+                                        <?php 
+                                            if (strtolower($item['category']) === 'interior') echo 'Teal & Cool Tones';
+                                            elseif (strtolower($item['category']) === 'exterior') echo 'Orange & Red Tones';
+                                            elseif (strtolower($item['category']) === 'texture') echo 'Textured Acrylics';
+                                            elseif (strtolower($item['category']) === 'commercial') echo 'Canvas Prints';
+                                            else echo htmlspecialchars($item['category']);
+                                        ?>
+                                    </span>
+                                    <a href="contact.php?artwork=<?php echo urlencode($item['title']); ?>" style="font-size: 12px; font-weight: 700; color: var(--primary); text-decoration: none; display: flex; align-items: center;">Inquire &rarr;</a>
                                 </div>
-                            <?php endif; ?>
-                            <div class="gallery-overlay">
-                                <h4><?php echo htmlspecialchars($item['title']); ?></h4>
-                                <span>
-                                    <?php 
-                                        if (strtolower($item['category']) === 'interior') echo 'Teal & Cool Tones';
-                                        elseif (strtolower($item['category']) === 'exterior') echo 'Orange & Red Tones';
-                                        elseif (strtolower($item['category']) === 'texture') echo 'Textured Acrylics';
-                                        elseif (strtolower($item['category']) === 'commercial') echo 'Canvas Prints';
-                                        else echo htmlspecialchars($item['category']);
-                                    ?>
-                                </span>
                             </div>
                         </div>
                     <?php endforeach; ?>
@@ -314,6 +324,47 @@ include __DIR__ . '/includes/header.php';
             </div>
         </div>
     </section>
+
+    <!-- WATCH THE CREATIVE PROCESS (INSTAGRAM SLIDER INTEGRATION) -->
+    <?php if (!empty($instagram_videos)): ?>
+    <section class="py-section bg-light" id="studio-video" style="border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); overflow: hidden;">
+        <div class="container">
+            <div class="section-header" style="text-align: center; margin-bottom: 45px;">
+                <span class="badge">Studio Reels</span>
+                <h2>Watch the Creative Process</h2>
+                <p>Follow along with the layers, details, and palette knife strokes directly from Rakesh Verma's studio.</p>
+            </div>
+            
+            <!-- Horizontal Slider Container -->
+            <div class="video-slider-container" style="position: relative; max-width: 1080px; margin: 0 auto; padding: 0 15px;">
+                <div class="video-slider-track" style="display: flex; gap: 24px; overflow-x: auto; scroll-behavior: smooth; padding-bottom: 15px; -webkit-overflow-scrolling: touch; scroll-snap-type: x mandatory;">
+                    <?php foreach($instagram_videos as $vid): 
+                        $instagram_embed_url = '';
+                        if (preg_match('/(?:p|reel|tv)\/([a-zA-Z0-9-_]+)/', $vid['url'], $matches)) {
+                            $instagram_embed_url = "https://www.instagram.com/p/" . $matches[1] . "/embed/";
+                        }
+                        if (!empty($instagram_embed_url)):
+                    ?>
+                        <div class="video-slide-item" style="flex: 0 0 326px; scroll-snap-align: start; box-shadow: var(--shadow-md); border-radius: 8px; overflow: hidden; border: 1px solid var(--border); background: white;">
+                            <div style="background: var(--bg-paper); padding: 12px 16px; border-bottom: 1px solid var(--border);">
+                                <span style="font-size: 11px; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 2px;">Process Video</span>
+                                <strong style="font-size: 13.5px; color: var(--text-ink); display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><?php echo htmlspecialchars($vid['title']); ?></strong>
+                            </div>
+                            <iframe src="<?php echo htmlspecialchars($instagram_embed_url); ?>" class="instagram-media" allowtransparency="true" allowfullscreen="true" frameborder="0" height="500" scrolling="no" style="background: white; border: none; width: 100%; display: block;"></iframe>
+                        </div>
+                    <?php 
+                        endif;
+                    endforeach; 
+                    ?>
+                </div>
+                
+                <!-- Helper Slider Control Arrows (Hidden on mobile touch screens for native swiping) -->
+                <button onclick="document.querySelector('.video-slider-track').scrollBy({left: -350, behavior: 'smooth'})" class="slider-arrow prev" style="position: absolute; left: -25px; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; background: white; border: 1px solid var(--border); box-shadow: var(--shadow-md); font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10; color: var(--text-ink); transition: all 0.2s;">&larr;</button>
+                <button onclick="document.querySelector('.video-slider-track').scrollBy({left: 350, behavior: 'smooth'})" class="slider-arrow next" style="position: absolute; right: -25px; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; background: white; border: 1px solid var(--border); box-shadow: var(--shadow-md); font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10; color: var(--text-ink); transition: all 0.2s;">&rarr;</button>
+            </div>
+        </div>
+    </section>
+    <?php endif; ?>
 
     <!-- TESTIMONIALS / REVIEWS SECTION (Vibrant Split Layout from reference) -->
     <section class="testimonials-section" id="reviews">
@@ -394,7 +445,7 @@ include __DIR__ . '/includes/header.php';
     <section class="py-section areas-section">
         <div class="container text-center">
             <span class="badge" style="background:rgba(255,255,255,0.15); color:#ffffff; margin-bottom: 20px;">📍 Locations</span>
-            <h2 style="margin-bottom: 12px; color: white;">Art Gallery Shipments Near Me</h2>
+            <h2 style="margin-bottom: 12px; color: white;">Art Gallery &amp; Worldwide Shipping</h2>
             <p style="margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto;">We offer prompt on-site art consultations, framing recommendations, and shipping across the following regions:</p>
             
             <div class="areas-grid">

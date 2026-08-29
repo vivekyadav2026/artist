@@ -20,7 +20,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_settings'])) {
             'why_collect_title_1', 'why_collect_desc_1',
             'why_collect_title_2', 'why_collect_desc_2',
             'why_collect_title_3', 'why_collect_desc_3',
-            'skill_stat_paintings', 'skill_stat_sold', 'skill_stat_collectors'
+            'skill_stat_paintings', 'skill_stat_sold', 'skill_stat_collectors',
+            'instagram_reel_url'
         ];
         
         $up_stmt = $pdo->prepare("UPDATE settings SET setting_value = ? WHERE setting_key = ?");
@@ -314,6 +315,13 @@ try {
                     <label for="why_collect_desc_3">Card 3 Text</label>
                     <input type="text" id="why_collect_desc_3" name="why_collect_desc_3" class="admin-form-control" value="<?php echo htmlspecialchars(isset($settings['why_collect_desc_3']) ? $settings['why_collect_desc_3'] : 'Created using premium-grade linen canvas and fade-resistant pigment acrylics to guarantee lifetime durability without color degradation.'); ?>" required>
                 </div>
+            </div>
+            <div style="font-family:var(--font-heading); font-size:16px; font-weight:700; color:var(--primary); margin:25px 0 15px 0; border-bottom:2px solid var(--primary); padding-bottom:5px;">🎥 Studio Video &amp; Reels Integration</div>
+
+            <div class="admin-form-group" style="margin-bottom: 30px;">
+                <label for="instagram_reel_url">Instagram Video / Reel URL</label>
+                <input type="url" id="instagram_reel_url" name="instagram_reel_url" class="admin-form-control" value="<?php echo htmlspecialchars(isset($settings['instagram_reel_url']) ? $settings['instagram_reel_url'] : ''); ?>" placeholder="e.g. https://www.instagram.com/reel/Ct5tUj8g2p3/">
+                <small style="color:var(--text-muted); display:block; margin-top:5px;">Paste any public Instagram Video, Reel, or Post link. The system will automatically convert it into a video embed frame.</small>
             </div>
 
             <button type="submit" name="save_settings" class="btn-add" style="border:none; cursor:pointer;">💾 Save Website Settings</button>
