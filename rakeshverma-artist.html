@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Rakesh Verma Artist — Fine Art Classes, Ghattiya, Ujjain</title>
+<meta name="description" content="Rakesh Verma Artist — painting, sketching and fine art classes for kids and adults, near Jawahar Navodaya Vidyalaya, Ghattiya, District Ujjain, Madhya Pradesh.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F1E4;
+    --paper-deep:#EFE7D4;
+    --ink:#241E19;
+    --indigo:#233E63;
+    --indigo-deep:#152840;
+    --ochre:#D69A2D;
+    --vermilion:#C1440E;
+    --vermilion-deep:#9A350A;
+    --line: rgba(36,30,25,0.14);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Manrope', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;display:block;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 28px;}
+  h1,h2,h3{font-family:'Fraunces', serif;margin:0;font-weight:600;letter-spacing:-0.01em;}
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--vermilion-deep);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:22px;height:1px;background:var(--vermilion-deep);display:inline-block;
+  }
+
+  /* texture */
+  .grain{
+    position:fixed;inset:0;pointer-events:none;opacity:0.05;mix-blend-mode:multiply;z-index:5;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* header */
+  header{
+    position:sticky;top:0;z-index:20;
+    background:rgba(246,241,228,0.92);
+    backdrop-filter: blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 28px;max-width:1120px;margin:0 auto;
+  }
+  .brand{display:flex;align-items:center;gap:12px;}
+  .seal{
+    width:42px;height:42px;border-radius:50%;
+    background:var(--vermilion);
+    color:var(--paper);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Fraunces',serif;font-weight:700;font-size:16px;
+    flex-shrink:0;
+    box-shadow: 0 0 0 3px var(--paper), 0 0 0 4px var(--line);
+  }
+  .brand-text{line-height:1.15;}
+  .brand-text .name{font-family:'Fraunces',serif;font-weight:600;font-size:17px;}
+  .brand-text .sub{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.08em;text-transform:uppercase;color:var(--indigo);}
+  nav.links{display:flex;gap:22px;font-size:14.5px;font-weight:600;}
+  nav.links a{opacity:0.82;transition:opacity .15s;}
+  nav.links a:hover{opacity:1;color:var(--vermilion-deep);}
+  .nav-cta{
+    background:var(--indigo);color:var(--paper);
+    padding:10px 20px;border-radius:2px;font-weight:700;font-size:13.5px;
+    border:1px solid var(--indigo);
+  }
+  .nav-cta:hover{background:var(--indigo-deep);}
+  .menu-toggle{display:none;background:none;border:none;font-size:22px;cursor:pointer;color:var(--ink);}
+
+  /* hero */
+  .hero{
+    position:relative;
+    padding:56px 0 48px;
+    overflow:hidden;
+    border-bottom:1px solid var(--line);
+  }
+  .hero .wrap{position:relative;z-index:2;}
+  .hero-stroke{
+    position:absolute; right:-8%; top:-10%; width:640px; max-width:70vw; opacity:0.9; z-index:1;
+  }
+  .hero-grid{
+    display:grid;grid-template-columns:1.15fr 0.85fr;gap:36px;align-items:end;
+  }
+  .location-badge{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.05em;
+    color:var(--indigo-deep);
+    background:var(--paper-deep);
+    border:1px solid var(--line);
+    padding:6px 12px;border-radius:100px;
+    margin-bottom:16px;
+  }
+  .location-badge svg{width:12px;height:12px;flex-shrink:0;}
+  .hero h1{
+    font-size:clamp(40px, 6vw, 68px);
+    line-height:0.98;
+    margin-bottom:14px;
+  }
+  .hero h1 em{
+    font-style:italic;color:var(--vermilion);
+    font-weight:500;
+  }
+  .hero p.lede{
+    font-size:17px;line-height:1.55;max-width:46ch;color:#463C33;margin-bottom:22px;
+  }
+  .hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:0;}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:14px 26px;border-radius:2px;font-weight:700;font-size:14.5px;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn-primary{background:var(--vermilion);color:var(--paper);}
+  .btn-primary:hover{background:var(--vermilion-deep);transform:translateY(-1px);}
+  .btn-ghost{border:1.5px solid var(--ink);color:var(--ink);}
+  .btn-ghost:hover{background:var(--ink);color:var(--paper);}
+
+  .hero-panel{
+    background:var(--indigo);
+    color:var(--paper);
+    padding:24px;
+    position:relative;
+    border-radius:2px;
+  }
+  .hero-panel::before{
+    content:"";position:absolute;top:8px;left:8px;right:-8px;bottom:-8px;
+    border:1.5px solid var(--indigo);z-index:-1;
+  }
+  .hero-panel .eyebrow{color:var(--ochre);}
+  .hero-panel .eyebrow::before{background:var(--ochre);}
+  .hero-panel h3{font-size:20px;margin:10px 0 14px;font-weight:600;line-height:1.25;}
+  .hero-stat-row{display:flex;gap:20px;margin-top:16px;padding-top:14px;border-top:1px solid rgba(246,241,228,0.22);}
+  .hero-stat b{font-family:'Fraunces',serif;font-size:26px;display:block;}
+  .hero-stat span{font-size:12px;opacity:0.75;}
+
+  section{padding:56px 0;}
+  .section-head{
+    display:flex;justify-content:space-between;align-items:flex-end;gap:24px;
+    margin-bottom:30px;flex-wrap:wrap;
+  }
+  .section-head h2{font-size:clamp(30px,4vw,44px);max-width:16ch;}
+  .section-head p{max-width:38ch;color:#5A4F44;font-size:15.5px;line-height:1.55;}
+
+  /* about */
+  .about{background:var(--paper-deep);border-bottom:1px solid var(--line);}
+  .about-grid{display:grid;grid-template-columns:0.9fr 1.1fr;gap:40px;align-items:center;}
+  .about-frame{
+    aspect-ratio:4/5; position:relative;
+    background:var(--indigo-deep);
+    border-radius:2px;
+    box-shadow: 12px 12px 0 var(--vermilion);
+    overflow:hidden;
+  }
+  .about-frame svg{width:100%;height:100%;}
+  .about-copy p{font-size:15.5px;line-height:1.65;color:#3B322A;margin:0 0 14px;}
+  .about-list{list-style:none;padding:0;margin:18px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:12px 24px;}
+  .about-list li{
+    font-size:14px;font-weight:600;display:flex;align-items:center;gap:10px;
+  }
+  .about-list li::before{
+    content:"";width:7px;height:7px;background:var(--vermilion);border-radius:50%;flex-shrink:0;
+  }
+
+  /* courses */
+  .course-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+  .course-card{
+    background:var(--paper);padding:26px 24px;transition:background .18s;
+  }
+  .course-card:hover{background:var(--paper-deep);}
+  .course-num{
+    font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--vermilion-deep);margin-bottom:14px;display:block;
+  }
+  .course-card h3{font-size:20px;margin-bottom:8px;font-weight:600;}
+  .course-card p{font-size:14.5px;line-height:1.6;color:#5A4F44;margin:0;}
+
+  /* process */
+  .process{background:var(--indigo-deep);color:var(--paper);border-bottom:1px solid var(--line);}
+  .process .section-head h2, .process .section-head p{color:var(--paper);}
+  .process .section-head p{opacity:0.7;}
+  .process-row{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative;}
+  .process-row::before{
+    content:"";position:absolute;top:20px;left:0;right:0;height:1px;
+    background:repeating-linear-gradient(to right, rgba(246,241,228,0.3) 0 8px, transparent 8px 16px);
+  }
+  .process-step{padding-right:20px;}
+  .process-dot{
+    width:40px;height:40px;border-radius:50%;background:var(--vermilion);
+    display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;
+    font-size:13px;margin-bottom:16px;position:relative;z-index:2;
+  }
+  .process-step h3{font-size:18px;margin-bottom:8px;color:var(--paper);font-weight:600;}
+  .process-step p{font-size:14px;line-height:1.6;opacity:0.72;margin:0;}
+
+  /* gallery */
+  .gallery-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:150px;gap:6px;
+  }
+  .swatch{position:relative;overflow:hidden;border-radius:2px;}
+  .swatch span{
+    position:absolute;bottom:10px;left:12px;
+    font-family:'JetBrains Mono',monospace;font-size:10.5px;color:rgba(246,241,228,0.85);
+    letter-spacing:0.04em;
+  }
+  .swatch.big{grid-row:span 2;grid-column:span 2;}
+
+  /* testimonials */
+  .testimonials{background:var(--paper-deep);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .t-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .t-card{
+    background:var(--paper);border:1px solid var(--line);padding:22px 22px;
+    display:flex;flex-direction:column;justify-content:space-between;min-height:200px;
+  }
+  .t-card .quote-mark{font-family:'Fraunces',serif;font-size:38px;color:var(--vermilion);line-height:1;margin-bottom:4px;}
+  .t-card p.quote{font-size:14.5px;line-height:1.6;color:#3B322A;margin:0 0 16px;}
+  .t-who{display:flex;align-items:center;gap:12px;}
+  .t-avatar{width:34px;height:34px;border-radius:50%;background:var(--indigo);color:var(--paper);
+    display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:13px;font-weight:700;flex-shrink:0;}
+  .t-who b{font-size:13.5px;display:block;}
+  .t-who span{font-size:11.5px;color:#7a6f62;}
+
+  /* contact */
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;}
+  .contact-info .eyebrow{margin-bottom:12px;}
+  .contact-info h2{font-size:34px;margin-bottom:14px;}
+  .contact-info p.lede{font-size:15.5px;line-height:1.6;color:#5A4F44;margin-bottom:20px;max-width:42ch;}
+  .contact-item{display:flex;gap:14px;padding:13px 0;border-top:1px solid var(--line);}
+  .contact-item:last-child{border-bottom:1px solid var(--line);}
+  .contact-icon{
+    width:38px;height:38px;border-radius:50%;background:var(--paper-deep);border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .contact-icon svg{width:16px;height:16px;color:var(--vermilion-deep);}
+  .contact-item h4{font-family:'Manrope',sans-serif;font-size:13.5px;font-weight:700;margin:0 0 4px;text-transform:uppercase;letter-spacing:0.04em;color:#7a6f62;}
+  .contact-item p{margin:0;font-size:15px;line-height:1.5;}
+  .contact-item .todo{color:var(--vermilion-deep);font-style:italic;font-size:13.5px;}
+
+  form.inquiry{background:var(--indigo-deep);padding:28px;border-radius:2px;color:var(--paper);}
+  form.inquiry h3{font-size:19px;margin-bottom:4px;color:var(--paper);}
+  form.inquiry .sub{font-size:13.5px;opacity:0.65;margin-bottom:18px;}
+  .field{margin-bottom:12px;}
+  .field label{display:block;font-size:12px;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;opacity:0.75;}
+  .field input, .field select, .field textarea{
+    width:100%;background:rgba(246,241,228,0.06);border:1px solid rgba(246,241,228,0.25);
+    color:var(--paper);padding:12px 14px;font-family:'Manrope',sans-serif;font-size:14px;border-radius:2px;
+  }
+  .field input::placeholder, .field textarea::placeholder{color:rgba(246,241,228,0.4);}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  form.inquiry button{
+    width:100%;margin-top:6px;padding:14px;background:var(--vermilion);color:var(--paper);
+    border:none;font-weight:700;font-size:14.5px;border-radius:2px;cursor:pointer;
+  }
+  form.inquiry button:hover{background:var(--vermilion-deep);}
+  form.inquiry .note{font-size:11.5px;opacity:0.55;margin-top:12px;text-align:center;}
+
+  /* footer */
+  footer{background:var(--ink);color:var(--paper);padding:40px 0 22px;}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:28px;margin-bottom:28px;}
+  .foot-brand{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+  .foot-brand .name{font-family:'Fraunces',serif;font-size:18px;}
+  footer p.desc{font-size:13.5px;line-height:1.65;opacity:0.62;max-width:34ch;}
+  footer h4{font-size:12.5px;text-transform:uppercase;letter-spacing:0.06em;opacity:0.55;margin-bottom:16px;}
+  footer ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;}
+  footer ul a{font-size:14px;opacity:0.82;}
+  footer ul a:hover{opacity:1;color:var(--ochre);}
+  .foot-bottom{border-top:1px solid rgba(246,241,228,0.14);padding-top:22px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:12.5px;opacity:0.5;}
+
+  @media (max-width: 860px){
+    nav.links, .nav-cta{display:none;}
+    .menu-toggle{display:block;}
+    .hero-grid{grid-template-columns:1fr;gap:36px;}
+    .hero-stroke{display:none;}
+    .about-grid{grid-template-columns:1fr;}
+    .about-frame{box-shadow:8px 8px 0 var(--vermilion);}
+    .course-grid{grid-template-columns:1fr;}
+    .process-row{grid-template-columns:1fr 1fr;row-gap:36px;}
+    .process-row::before{display:none;}
+    .gallery-grid{grid-template-columns:repeat(2,1fr);}
+    .swatch.big{grid-column:span 2;}
+    .t-grid{grid-template-columns:1fr;}
+    .contact-grid{grid-template-columns:1fr;}
+    .field-row{grid-template-columns:1fr;}
+    .foot-grid{grid-template-columns:1fr 1fr;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{transition:none !important;}
+  }
+</style>
+</head>
+<body>
+<div class="grain"></div>
+
+<header>
+  <div class="nav">
+    <div class="brand">
+      <div class="seal">RV</div>
+      <div class="brand-text">
+        <div class="name">Rakesh Verma</div>
+        <div class="sub">Artist &amp; Art Teacher</div>
+      </div>
+    </div>
+    <nav class="links">
+      <a href="#about">About</a>
+      <a href="#courses">Courses</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a href="#contact" class="nav-cta">Enquire Now</a>
+    <button class="menu-toggle" aria-label="Menu">&#9776;</button>
+  </div>
+</header>
+
+<section class="hero">
+  <svg class="hero-stroke" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M410 60C380 110 460 150 430 210C400 270 300 250 280 320C260 390 350 420 320 470" stroke="#C1440E" stroke-width="26" stroke-linecap="round" opacity="0.85"/>
+    <path d="M60 380C110 350 90 280 150 260C210 240 220 320 280 300" stroke="#233E63" stroke-width="18" stroke-linecap="round" opacity="0.5"/>
+  </svg>
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="location-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-7.2 7-12a7 7 0 1 0-14 0c0 4.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
+          Ghattiya · District Ujjain, Madhya Pradesh
+        </div>
+        <h1>Every student<br>carries a brush<br><em>differently.</em></h1>
+        <p class="lede">Rakesh Verma Artist is a home‑grown art studio near Jawahar Navodaya Vidyalaya, Ghattiya — where children and adults learn drawing, painting and craft the way it's meant to be taught: one canvas, one student, at a time.</p>
+        <div class="hero-actions">
+          <a href="#contact" class="btn btn-primary">Book a Free Trial Class</a>
+          <a href="#courses" class="btn btn-ghost">View Courses</a>
+        </div>
+      </div>
+      <div class="hero-panel">
+        <div class="eyebrow">Studio Note</div>
+        <h3>Taught directly by Rakesh Verma — no batches handed off to junior staff.</h3>
+        <div class="hero-stat-row">
+          <div class="hero-stat"><b>Kids &amp; Adults</b><span>Age no bar</span></div>
+          <div class="hero-stat"><b>Sat–Thu</b><span>Weekly classes</span></div>
+          <div class="hero-stat"><b>1:1</b><span>Personal feedback</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="about-frame">
+        <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="500" fill="#152840"/>
+          <path d="M-20 340 C 60 280, 120 380, 200 320 S 340 260, 420 330 L 420 520 L -20 520 Z" fill="#233E63"/>
+          <path d="M-20 400 C 80 360, 140 440, 220 400 S 340 360, 420 410 L 420 520 L -20 520 Z" fill="#C1440E" opacity="0.9"/>
+          <circle cx="300" cy="120" r="70" fill="#D69A2D" opacity="0.9"/>
+          <path d="M60 60 C 120 40, 150 90, 110 130 C 70 170, 30 130, 60 60 Z" fill="#F6F1E4" opacity="0.12"/>
+          <path d="M40 220 Q 120 190 180 240 T 340 230" stroke="#F6F1E4" stroke-width="6" fill="none" opacity="0.35" stroke-linecap="round"/>
+          <text x="200" y="470" text-anchor="middle" font-family="Fraunces, serif" font-size="34" fill="#F6F1E4" font-weight="600">R V</text>
+        </svg>
+      </div>
+      <div class="about-copy">
+        <div class="eyebrow">The Artist</div>
+        <h2 style="font-size:34px;margin:14px 0 20px;">Hello, I'm Rakesh Verma.</h2>
+        <p>I teach art the way I learned to love it — by drawing what's in front of me, over and over, until the hand stops fighting the eye. My studio sits by Jawahar Navodaya Vidyalaya in Ghattiya, and my students range from six‑year‑olds holding a pencil for the first time to adults returning to a hobby they set aside years ago.</p>
+        <p>Classes are small on purpose. Every student works at their own pace, on the medium that excites them, with corrections given canvas‑by‑canvas rather than as a group lecture.</p>
+        <ul class="about-list">
+          <li>Small batch sizes</li>
+          <li>Kids &amp; adult classes</li>
+          <li>Beginner to advanced</li>
+          <li>Exam &amp; portfolio guidance</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="courses" id="courses">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Courses on offer</h2>
+      <p>Pick a medium to begin with — most students branch into two or three over time.</p>
+    </div>
+    <div class="course-grid">
+      <div class="course-card"><span class="course-num">01</span><h3>Drawing &amp; Sketching</h3><p>Pencil control, shading, proportion and still‑life — the foundation every other course builds on.</p></div>
+      <div class="course-card"><span class="course-num">02</span><h3>Watercolour Painting</h3><p>Washes, layering and control of water — for landscapes, florals and light studies.</p></div>
+      <div class="course-card"><span class="course-num">03</span><h3>Acrylic &amp; Oil Painting</h3><p>Colour mixing, texture and canvas technique, from first strokes to finished works.</p></div>
+      <div class="course-card"><span class="course-num">04</span><h3>Kids' Art Classes</h3><p>Playful, age‑appropriate lessons that build confidence before technique.</p></div>
+      <div class="course-card"><span class="course-num">05</span><h3>Portrait Making</h3><p>Working from photographs and live sittings to capture likeness and expression.</p></div>
+      <div class="course-card"><span class="course-num">06</span><h3>School &amp; Exam Prep</h3><p>Guided practice for school art exams, competitions and portfolio pieces.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="process">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>How classes work</h2>
+      <p>A simple path from first enquiry to your first finished piece.</p>
+    </div>
+    <div class="process-row">
+      <div class="process-step"><div class="process-dot">1</div><h3>Enquire</h3><p>Call or fill the form below and tell us what you'd like to learn.</p></div>
+      <div class="process-step"><div class="process-dot">2</div><h3>Trial Class</h3><p>Sit in on a class, meet Rakesh Verma, and see the studio in person.</p></div>
+      <div class="process-step"><div class="process-dot">3</div><h3>Enrol</h3><p>Choose a medium and a weekly schedule that fits your routine.</p></div>
+      <div class="process-step"><div class="process-dot">4</div><h3>Create</h3><p>Regular practice, honest feedback, and steady visible progress.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="gallery" id="gallery">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>From the studio</h2>
+      <p>A few pieces from recent classes. Photos of actual student work to be added here.</p>
+    </div>
+    <div class="gallery-grid">
+      <div class="swatch big">
+        <svg viewBox="0 0 300 300" preserveAspectRatio="xMidYMid slice"><rect width="300" height="300" fill="#F6F1E4"/>
+          <path d="M0 210 C 60 160 100 230 150 190 S 260 150 300 200 L 300 300 L 0 300 Z" fill="#D69A2D"/>
+          <path d="M0 250 C 70 220 120 270 180 240 S 260 210 300 250 L 300 300 L 0 300 Z" fill="#C1440E"/>
+          <circle cx="230" cy="70" r="46" fill="#233E63" opacity="0.85"/>
+          <path d="M20 40 Q 90 10 150 60" stroke="#152840" stroke-width="5" fill="none" opacity="0.4" stroke-linecap="round"/>
+        </svg>
+        <span>Landscape · Watercolour</span>
+      </div>
+      <div class="swatch">
+        <svg viewBox="0 0 200 150" preserveAspectRatio="xMidYMid slice"><rect width="200" height="150" fill="#233E63"/>
+          <ellipse cx="80" cy="90" rx="46" ry="30" fill="#D69A2D"/>
+          <ellipse cx="130" cy="70" rx="24" ry="34" fill="#C1440E" opacity="0.85"/>
+        </svg>
+        <span>Still Life</span>
+      </div>
+      <div class="swatch">
+        <svg viewBox="0 0 200 150" preserveAspectRatio="xMidYMid slice"><rect width="200" height="150" fill="#F6F1E4"/>
+          <circle cx="100" cy="60" r="34" fill="#9A350A"/>
+          <path d="M60 130 Q 100 90 140 130 Z" fill="#152840" opacity="0.85"/>
+        </svg>
+        <span>Portrait Study</span>
+      </div>
+      <div class="swatch">
+        <svg viewBox="0 0 200 150" preserveAspectRatio="xMidYMid slice"><rect width="200" height="150" fill="#152840"/>
+          <path d="M0 100 C 50 70 90 120 140 90 S 200 70 200 100 L 200 150 L 0 150 Z" fill="#C1440E"/>
+          <circle cx="50" cy="45" r="18" fill="#D69A2D"/>
+          <circle cx="90" cy="35" r="12" fill="#F6F1E4" opacity="0.5"/>
+        </svg>
+        <span>Kids' Batch</span>
+      </div>
+      <div class="swatch">
+        <svg viewBox="0 0 200 150" preserveAspectRatio="xMidYMid slice"><rect width="200" height="150" fill="#9A350A"/>
+          <path d="M20 20 Q 100 -10 180 30 T 190 130" stroke="#F6F1E4" stroke-width="8" fill="none" opacity="0.4" stroke-linecap="round"/>
+          <circle cx="140" cy="100" r="28" fill="#233E63"/>
+        </svg>
+        <span>Acrylic on Canvas</span>
+      </div>
+      <div class="swatch">
+        <svg viewBox="0 0 200 150" preserveAspectRatio="xMidYMid slice"><rect width="200" height="150" fill="#D69A2D"/>
+          <path d="M30 30 L 170 120 M170 30 L 30 120" stroke="#152840" stroke-width="4" opacity="0.5"/>
+          <circle cx="100" cy="75" r="22" fill="#F6F1E4" opacity="0.7"/>
+        </svg>
+        <span>Sketch Practice</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="testimonials" id="reviews">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>What students say</h2>
+      <p>Placeholder reviews — swap these for real feedback from your students.</p>
+    </div>
+    <div class="t-grid">
+      <div class="t-card">
+        <div>
+          <div class="quote-mark">&ldquo;</div>
+          <p class="quote">My daughter was scared to even hold a pencil confidently. Six months in, she's the one asking to practice on weekends.</p>
+        </div>
+        <div class="t-who"><div class="t-avatar">A</div><div><b>Parent, Ghattiya</b><span>Kids' Batch</span></div></div>
+      </div>
+      <div class="t-card">
+        <div>
+          <div class="quote-mark">&ldquo;</div>
+          <p class="quote">I came back to painting after almost ten years. Rakesh sir corrects without discouraging — that's rare.</p>
+        </div>
+        <div class="t-who"><div class="t-avatar">S</div><div><b>Adult Student</b><span>Watercolour</span></div></div>
+      </div>
+      <div class="t-card">
+        <div>
+          <div class="quote-mark">&ldquo;</div>
+          <p class="quote">Helped me put together a portfolio for my school's art exam with barely a month to spare.</p>
+        </div>
+        <div class="t-who"><div class="t-avatar">P</div><div><b>Student</b><span>Exam Prep</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="eyebrow">Get in touch</div>
+        <h2>Let's start with a trial class.</h2>
+        <p class="lede">Drop by the studio, call, or send an enquiry — Rakesh Verma will get back to you personally.</p>
+
+        <div class="contact-item">
+          <div class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-7.2 7-12a7 7 0 1 0-14 0c0 4.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg></div>
+          <div>
+            <h4>Studio Address</h4>
+            <p>Near Jawahar Navodaya Vidyalaya, Ghattiya,<br>District Ujjain, Madhya Pradesh — 456550</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.34 1.78.66 2.61a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.47-1.27a2 2 0 0 1 2.11-.45c.83.32 1.71.54 2.61.66A2 2 0 0 1 22 16.92z"/></svg></div>
+          <div>
+            <h4>Phone</h4>
+            <p class="todo">Add your contact number here</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M4 6l8 7 8-7"/></svg></div>
+          <div>
+            <h4>Email</h4>
+            <p class="todo">Add your email address here</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+          <div>
+            <h4>Class Hours</h4>
+            <p>Saturday – Thursday, 9:00 AM – 5:00 PM<br>Friday: Closed</p>
+          </div>
+        </div>
+      </div>
+
+      <form class="inquiry" onsubmit="return false;">
+        <h3>Send an enquiry</h3>
+        <p class="sub">Fill this in and we'll get back to you about class timings.</p>
+        <div class="field-row">
+          <div class="field"><label for="fname">Full name</label><input id="fname" type="text" placeholder="Your name"></div>
+          <div class="field"><label for="fphone">Phone</label><input id="fphone" type="tel" placeholder="10-digit number"></div>
+        </div>
+        <div class="field">
+          <label for="fcourse">Course interested in</label>
+          <select id="fcourse">
+            <option>Drawing &amp; Sketching</option>
+            <option>Watercolour Painting</option>
+            <option>Acrylic &amp; Oil Painting</option>
+            <option>Kids' Art Classes</option>
+            <option>Portrait Making</option>
+            <option>School &amp; Exam Prep</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="fmsg">Message (optional)</label>
+          <textarea id="fmsg" rows="3" placeholder="Tell us a little about your goals"></textarea>
+        </div>
+        <button type="submit">Request a Trial Class</button>
+        <p class="note">This form is a visual template — connect it to email or WhatsApp to make it live.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand"><div class="seal">RV</div><div class="name">Rakesh Verma Artist</div></div>
+        <p class="desc">Fine art classes for kids and adults near Jawahar Navodaya Vidyalaya, Ghattiya, District Ujjain, Madhya Pradesh.</p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#courses">Courses</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#reviews">Reviews</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Visit</h4>
+        <ul>
+          <li><a href="#contact">Jawahar Navodaya Vidyalaya Rd,<br>Ghattiya, Ujjain (MP) 456550</a></li>
+          <li><a href="#contact">Enquire about class timings</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>&copy; 2026 Rakesh Verma Artist. All rights reserved.</span>
+      <span>Ghattiya, District Ujjain, Madhya Pradesh</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

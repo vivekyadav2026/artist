@@ -1,0 +1,465 @@
+/* 
+   Rakesh Verma Abstract Art Studio - Admin Dashboard Stylesheet
+   Theme: Midnight Navy Sidebar, Vermilion Red accents, Slate Text, Clean Canvas
+*/
+
+:root {
+    --primary: #c1440e;
+    --primary-dark: #9a350a;
+    --primary-light: #ea580c;
+    --accent: #233e63;
+    --bg-main: #fcfbf9;
+    --bg-card: #ffffff;
+    --text-dark: #1c1917;
+    --text-body: #57534e;
+    --text-muted: #878681;
+    --border: rgba(28, 25, 23, 0.1);
+    --sidebar-width: 260px;
+    --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Manrope', sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-body);
+    display: flex;
+    min-height: 100vh;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* Sidebar styling */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #152840; /* Elegant midnight navy */
+    color: #cbd5e1;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    z-index: 100;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+}
+.sidebar-header {
+    padding: 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.sidebar-logo {
+    width: 38px;
+    height: 38px;
+    border-radius: 6px;
+    background-color: var(--primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 20px;
+}
+.sidebar-header h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 19px;
+    color: white;
+    font-weight: 700;
+}
+.sidebar-menu {
+    list-style: none;
+    padding: 20px 0;
+    flex-grow: 1;
+    overflow-y: auto;
+}
+.sidebar-menu li {
+    margin-bottom: 4px;
+}
+.sidebar-menu a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 24px;
+    font-size: 14.5px;
+    font-weight: 600;
+    color: #94a3b8;
+    transition: all 0.2s ease;
+    border-left: 4px solid transparent;
+}
+.sidebar-menu a:hover, .sidebar-menu li.active a {
+    color: white;
+    background-color: rgba(255,255,255,0.05);
+}
+.sidebar-menu li.active a {
+    border-left-color: var(--primary);
+    background-color: rgba(255,255,255,0.08);
+}
+.sidebar-footer {
+    padding: 16px 24px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    font-size: 13px;
+    color: #64748b;
+}
+
+/* Main Content Area */
+.main-content {
+    margin-left: var(--sidebar-width);
+    flex-grow: 1;
+    padding: 30px;
+    min-height: 100vh;
+}
+
+/* Top header bar */
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    background: white;
+    padding: 15px 30px;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+}
+.page-title h1 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 24px;
+    color: var(--text-dark);
+}
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.user-info {
+    text-align: right;
+}
+.user-info h4 {
+    font-size: 14.5px;
+    color: var(--text-dark);
+}
+.user-info span {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+.btn-logout {
+    padding: 6px 12px;
+    background-color: #fee2e2;
+    color: #ef4444;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 700;
+    transition: all 0.2s ease;
+}
+.btn-logout:hover {
+    background-color: #fca5a5;
+}
+
+/* Dashboard Statistics Cards */
+.stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+}
+.stat-card {
+    background: white;
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.stat-card-info h3 {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+.stat-card-info p {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text-dark);
+    font-family: 'Outfit', sans-serif;
+}
+.stat-card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: rgba(193, 68, 14, 0.08);
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+}
+
+/* Content Box/Card style */
+.content-box {
+    background: white;
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: var(--shadow);
+    margin-bottom: 30px;
+    border: 1px solid var(--border);
+}
+.content-box-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 20px;
+}
+.content-box-header h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 18px;
+    color: var(--text-dark);
+}
+
+/* Tables styling */
+table.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+table.admin-table th, table.admin-table td {
+    padding: 14px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+table.admin-table th {
+    background-color: var(--bg-main);
+    color: var(--text-dark);
+    font-weight: 700;
+    font-size: 13.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+table.admin-table td {
+    font-size: 14.5px;
+}
+table.admin-table tr:hover {
+    background-color: #fafafa;
+}
+
+/* Badges for status */
+.status-pill {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+.status-pill.pending { background-color: #fef3c7; color: #d97706; }
+.status-pill.contacted { background-color: #dbeafe; color: #2563eb; }
+.status-pill.completed { background-color: #dcfce7; color: #15803d; }
+
+/* Buttons inside tables/forms */
+.btn-action {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12.5px;
+    font-weight: 700;
+    gap: 4px;
+    border: none;
+    cursor: pointer;
+}
+.btn-action.edit { background-color: rgba(193, 68, 14, 0.08); color: var(--primary); }
+.btn-action.edit:hover { background-color: var(--primary); color: white; }
+.btn-action.delete { background-color: #fee2e2; color: #ef4444; }
+.btn-action.delete:hover { background-color: #ef4444; color: white; }
+.btn-action.view { background-color: #f1f5f9; color: #475569; }
+.btn-action.view:hover { background-color: #cbd5e1; }
+
+.btn-add {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--primary);
+    color: white;
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    gap: 8px;
+}
+.btn-add:hover {
+    background-color: var(--primary-dark);
+}
+
+/* Forms styling in admin panel */
+.admin-form-group {
+    margin-bottom: 20px;
+}
+.admin-form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+}
+.admin-form-control {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 14.5px;
+    color: var(--text-dark);
+    transition: all 0.2s ease;
+}
+.admin-form-control:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(193, 68, 14, 0.12);
+}
+textarea.admin-form-control {
+    height: 120px;
+    resize: vertical;
+}
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+/* Image preview thumbnails */
+.image-preview {
+    width: 80px;
+    height: 60px;
+    border-radius: 4px;
+    object-fit: cover;
+    border: 1px solid var(--border);
+}
+
+/* Login Page Layout */
+.login-body {
+    background-color: var(--bg-main);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    width: 100%;
+}
+.login-card {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: var(--shadow-md);
+    width: 100%;
+    max-width: 420px;
+    border: 1px solid var(--border);
+}
+.login-logo {
+    text-align: center;
+    margin-bottom: 30px;
+}
+.login-logo-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    background-color: var(--primary);
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 24px;
+    margin-bottom: 12px;
+}
+.login-logo h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 22px;
+    color: var(--primary-dark);
+}
+.login-logo p {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+.btn-login {
+    width: 100%;
+    background-color: var(--primary);
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.2s ease;
+}
+.btn-login:hover {
+    background-color: var(--primary-dark);
+}
+
+/* Messages/Alerts */
+.admin-alert {
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-size: 14.5px;
+}
+.admin-alert-success {
+    background-color: #dcfce7;
+    color: #15803d;
+    border: 1px solid #bbf7d0;
+}
+.admin-alert-error {
+    background-color: #fef2f2;
+    color: #b91c1c;
+    border: 1px solid #fee2e2;
+}
+
+/* Responsive Admin Layout */
+@media (max-width: 992px) {
+    .stats-row {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+    }
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+    .sidebar-header {
+        padding: 15px;
+    }
+    .sidebar-menu {
+        display: none; /* Can be toggled on mobile if needed */
+        padding: 10px 0;
+    }
+    .sidebar-menu a {
+        padding: 10px 20px;
+    }
+    .main-content {
+        margin-left: 0;
+        padding: 15px;
+    }
+    .stats-row {
+        grid-template-columns: 1fr;
+    }
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+}
