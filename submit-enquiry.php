@@ -37,9 +37,29 @@ try {
     $stmt = $pdo->prepare("INSERT INTO enquiries (name, phone, email, service, message, status) VALUES (?, ?, ?, ?, ?, 'Pending')");
     $stmt->execute([$name, $phone, $email ?: null, $service, $message ?: null]);
     
+    // Get WhatsApp number from settings (fallback to user's updated number)
+    $whatsapp_raw = getSetting('contact_whatsapp', '917889350684');
+    $whatsapp_num = preg_replace('/[^0-9]/', '', $whatsapp_raw);
+    
+    // Construct custom WhatsApp message
+    $msg = "Hello Rakesh Verma,\n\n";
+    $msg .= "I would like to make an enquiry from your website:\n\n";
+    $msg .= "*Name*: " . $name . "\n";
+    $msg .= "*Phone*: " . $phone . "\n";
+    if (!empty($email)) {
+        $msg .= "*Email*: " . $email . "\n";
+    }
+    $msg .= "*Interested In*: " . $service . "\n";
+    if (!empty($message)) {
+        $msg .= "*Message*: " . $message . "\n";
+    }
+    
+    $whatsapp_url = "https://wa.me/" . $whatsapp_num . "?text=" . urlencode($msg);
+    
     echo json_encode([
         'status' => 'success',
-        'message' => 'Thank you! Your enquiry has been received. Our team will contact you shortly.'
+        'message' => 'Thank you! Redirecting you to WhatsApp to complete your enquiry...',
+        'whatsapp_url' => $whatsapp_url
     ]);
 } catch (PDOException $e) {
     // Log error in production, show simple message to user

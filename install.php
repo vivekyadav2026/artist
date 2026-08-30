@@ -73,6 +73,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['install'])) {
                 `title` VARCHAR(255) NOT NULL,
                 `category` VARCHAR(100) NOT NULL,
                 `image_path` VARCHAR(255) NOT NULL,
+                `medium` VARCHAR(150) DEFAULT NULL,
+                `size` VARCHAR(100) DEFAULT NULL,
+                `year` VARCHAR(50) DEFAULT NULL,
+                `price` VARCHAR(100) DEFAULT NULL,
+                `available` VARCHAR(50) DEFAULT 'Available',
                 `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             ) ENGINE=InnoDB;");
             
@@ -106,20 +111,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['install'])) {
             
             // Seed Default Settings
             $default_settings = [
-                ['site_title', 'ColorLux Painters - Professional Painting Services', 'Site Title', 'seo'],
-                ['site_description', 'Get premium interior, exterior, wall texture, waterproofing, and commercial painting services from experienced professional painters. 100% dust-free & high-quality finishes.', 'Site Meta Description', 'seo'],
-                ['site_keywords', 'home painting services, house painters near me, wall texture painting, interior house painting, waterproofing painters', 'Site Meta Keywords', 'seo'],
-                ['contact_phone', '+91 98765 43210', 'Contact Phone', 'contact'],
-                ['contact_email', 'contact@colorluxpainters.com', 'Contact Email', 'contact'],
-                ['contact_whatsapp', '919876543210', 'WhatsApp Number (with Country Code, no spaces/plus)', 'contact'],
-                ['contact_address', '402, 4th Floor, Sector 62, Noida, Uttar Pradesh, 201301', 'Office Address', 'contact'],
-                ['hero_heading', 'Flawless Paint. Premium Finish. Zero Stress.', 'Hero Heading', 'about'],
-                ['hero_subheading', 'Bring your walls to life with Delhi NCR\'s most trusted home & commercial painting team. Get dust-free execution and a 1-year service warranty.', 'Hero Subheading', 'about'],
-                ['about_heading', 'We Don\'t Just Paint Walls. We Paint Homes.', 'About Section Heading', 'about'],
-                ['about_description', 'ColorLux Painters is Delhi NCR\'s leading professional painting solutions provider. For over a decade, we have helped homeowners and corporate spaces reimagine their environments. Our crew is trained in high-grade finishes, clean work practices, and modern techniques like designer wall textures and specialized wood styling.', 'About Section Description', 'about'],
-                ['why_choose_us_headline', 'Why Property Owners Choose ColorLux', 'Why Choose Us Headline', 'about'],
-                ['service_areas', 'Delhi, Noida, Greater Noida, Gurgaon, Ghaziabad, Faridabad', 'Service Areas (Comma separated)', 'contact'],
-                ['google_map_iframe', '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d224345.97130282855!2d77.0688975924748!3d28.52728033785461!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfd5b347eb62d%3A0x52c2b7494e204dce!2sNew%20Delhi%2C%20Delhi!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>', 'Google Map Embed HTML', 'contact']
+                ['site_title', 'Rakesh Verma - Contemporary Abstract Artist', 'Site Title', 'seo'],
+                ['site_description', 'Explore original hand-signed abstract paintings, geometric triangle series, and fine art collections by contemporary artist Rakesh Verma.', 'Site Meta Description', 'seo'],
+                ['site_keywords', 'abstract art, geometric paintings, contemporary artist, triangle painting series, original canvas art, Rakesh Verma', 'Site Meta Keywords', 'seo'],
+                ['contact_phone', '+91 78893 50684', 'Contact Phone', 'contact'],
+                ['contact_email', 'contact@rakeshverma.art', 'Contact Email', 'contact'],
+                ['contact_whatsapp', '917889350684', 'WhatsApp Number (with Country Code, no spaces/plus)', 'contact'],
+                ['contact_address', 'Jawahar Navodaya Vidyalaya Road, Ghattiya, District Ujjain, Madhya Pradesh, 456550', 'Office Address', 'contact'],
+                ['hero_heading', 'Transforming Spaces with Vibrant Geometry.', 'Hero Heading', 'about'],
+                ['hero_subheading', 'Explore original hand-signed acrylic canvas works and geometric triangle series exploring depths, color transparency, and layered rhythm by Rakesh Verma.', 'Hero Subheading', 'about'],
+                ['about_heading', 'About the Artist — Rakesh Verma', 'About Section Heading', 'about'],
+                ['about_description', 'Rakesh Verma is a contemporary abstract painter exploring geometric rhythms, color overlays, and layered textures. Working primarily with acrylics, palette knives, and stencils on high-grade canvas, Rakesh\'s signature triangle series explores visual depth and structural patterns. His works reside in private collections and modern interiors.', 'About Section Description', 'about'],
+                ['why_choose_us_headline', 'Why Collectors Choose Rakesh Verma Art', 'Why Choose Us Headline', 'about'],
+                ['service_areas', 'Mumbai, Delhi NCR, Bengaluru, Hyderabad, Chennai, Kolkata, Pune, All India Delivery', 'Service Areas (Comma separated)', 'contact'],
+                ['google_map_iframe', '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3667.669864278484!2d75.7678971!3d23.2728033!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3963f4581c7fffff%3A0x6b772bb2b9db4db6!2sGhattiya%2C%20Madhya%20Pradesh!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>', 'Google Map Embed HTML', 'contact']
             ];
             
             $pdo->exec("TRUNCATE TABLE `settings`");
@@ -132,28 +137,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['install'])) {
             $pdo->exec("TRUNCATE TABLE `services`");
             $srv_stmt = $pdo->prepare("INSERT INTO `services` (title, description, image_path, price_range) VALUES (?, ?, ?, ?)");
             $srv_stmt->execute([
-                'Premium Interior Painting',
-                'Give your living spaces a luxury touch. We offer emulsion painting, plastic paint finishes, and custom color consultations with zero-odor formulations.',
-                'assets/images/service-interior.jpg',
-                '₹12/sq.ft onwards'
+                'Original Canvas Paintings',
+                'Explore signed original canvas paintings capturing the dimensions of time. Each abstract artwork serves as a visual bridge connecting the memories of the past, the raw presence of the present, and the vision of the future.',
+                'assets/images/abstract-1.jpg',
+                'On Request'
             ]);
             $srv_stmt->execute([
-                'Weather-Proof Exterior Painting',
-                'Protect your house walls from heavy monsoon rains and scorching sun. We use elastic, anti-peeling paint shield technology with up to 7 years warranty.',
-                'assets/images/service-exterior.jpg',
-                '₹15/sq.ft onwards'
+                'Custom Art Commissions',
+                'Commission a bespoke abstract painting tailored to the size, color scheme, and mood of your home or corporate office walls.',
+                'assets/images/abstract-2.jpg',
+                'Based on Size'
             ]);
             $srv_stmt->execute([
-                'Designer Texture Walls',
-                'Transform your main drawing room or master bedroom wall into a work of art. Stencils, metallic finishes, rustic spatulas, and modern clay finishes.',
-                'assets/images/service-texture.jpg',
-                '₹45/sq.ft onwards'
+                'Geometric & Triangle Series',
+                'Explore the geometric triangle overlay prints and original acrylic works that play with light, transparency, and color tones.',
+                'assets/images/abstract-3.jpg',
+                'Starting ₹18,000'
             ]);
             $srv_stmt->execute([
-                'Waterproofing & Damp Repair',
-                'Solve moisture, chalking, and dampness permanently. We perform base cement grouting, wall crack filling, and silicon sealant rubber-coating.',
-                'assets/images/service-waterproofing.jpg',
-                'On Inspection'
+                'Office & Hotel Projects',
+                'Custom abstract series and giant feature canvases designed specifically to enhance commercial lobbies, hotel rooms, and corporate office boards.',
+                'assets/images/abstract-4.jpg',
+                'Bulk Estimation'
             ]);
             
             // Seed Default Testimonials
@@ -163,30 +168,84 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['install'])) {
                 'Aditya Sharma',
                 'Noida, Sec 78',
                 5,
-                'The team finished our entire 3BHK flat in exactly 5 days. Minimal dust, quick cleanup, and the texture wall in our dining area looks absolutely premium!'
+                'The abstract paintings we acquired are the focal point of our living room. Rakesh\'s geometric design and color tones look absolutely premium and match our interiors perfectly!'
             ]);
             $test_stmt->execute([
                 'Meenakshi Rao',
                 'Gurgaon, Phase 3',
                 5,
-                'I was worried about painting odors due to my young kids, but their low-VOC paints made it so easy. The painters were polite and highly professional.'
+                'We commissioned a custom large canvas abstract artwork for our Gurgaon lobby. Rakesh was extremely collaborative, matching our color palette exactly. It was delivered on time and perfectly stretched.'
             ]);
             $test_stmt->execute([
                 'Rakesh Singhal',
                 'Delhi, Vasant Kunj',
                 4,
-                'ColorLux did our commercial office exterior painting. Outstanding durability and neat detailing. Highly recommended painting contractor.'
+                'Rakesh Verma\'s geometric series is a masterclass in modern abstract art. The transparency of layers and nodes of tension are mesmerizing. We are proud to have three of his works in our collection.'
             ]);
             
             // Seed Default Gallery
             $pdo->exec("TRUNCATE TABLE `gallery`");
-            $gal_stmt = $pdo->prepare("INSERT INTO `gallery` (title, category, image_path) VALUES (?, ?, ?)");
-            $gal_stmt->execute(['Elegant Living Room Emulsion', 'Interior', 'assets/images/gallery-1.jpg']);
-            $gal_stmt->execute(['Modern High-Sheen Bedroom', 'Interior', 'assets/images/gallery-2.jpg']);
-            $gal_stmt->execute(['Textured Feature Wall', 'Texture', 'assets/images/gallery-3.jpg']);
-            $gal_stmt->execute(['Water-Resistant Building Exterior', 'Exterior', 'assets/images/gallery-4.jpg']);
-            $gal_stmt->execute(['Metallic Accent Ceiling Finish', 'Texture', 'assets/images/gallery-5.jpg']);
-            $gal_stmt->execute(['Corporate Cabin Matte Finish', 'Commercial', 'assets/images/gallery-6.jpg']);
+            $gal_stmt = $pdo->prepare("INSERT INTO `gallery` (title, category, image_path, medium, size, year, price, available) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            $gal_stmt->execute([
+                'Ember Triangles (Red Acrylic Series)',
+                'Texture',
+                'assets/images/gallery-1.jpg',
+                'Acrylic and Paste on Linen Canvas',
+                '36 x 48 inches',
+                '2025',
+                '₹ 1,50,000',
+                'Available'
+            ]);
+            $gal_stmt->execute([
+                'Forest Canopy (Teal Geometric Stencil)',
+                'Interior',
+                'assets/images/gallery-2.jpg',
+                'Acrylic Glaze on Canvas',
+                '30 x 40 inches',
+                '2024',
+                '₹ 1,15,000',
+                'Available'
+            ]);
+            $gal_stmt->execute([
+                'Deep Oceans (Blue Geometric Rhythm)',
+                'Interior',
+                'assets/images/gallery-3.jpg',
+                'Acrylic and Pigments on Linen',
+                '48 x 48 inches',
+                '2025',
+                '₹ 1,80,000',
+                'Available'
+            ]);
+            $gal_stmt->execute([
+                'Prism Echoes (Warm/Cool Balance)',
+                'Texture',
+                'assets/images/gallery-4.jpg',
+                'Heavy Gel and Acrylic on Canvas',
+                '24 x 36 inches',
+                '2025',
+                '₹ 95,000',
+                'Available'
+            ]);
+            $gal_stmt->execute([
+                'Ember Triangles II',
+                'Exterior',
+                'assets/images/gallery-5.jpg',
+                'Acrylic on Linen Canvas',
+                '40 x 50 inches',
+                '2026',
+                '₹ 2,10,000',
+                'Available'
+            ]);
+            $gal_stmt->execute([
+                'Forest Canopy II',
+                'Commercial',
+                'assets/images/gallery-6.jpg',
+                'Giclée Archival Abstract Print',
+                '18 x 24 inches',
+                '2026',
+                '₹ 28,000',
+                'Available'
+            ]);
 
             // Write config.php
             $config_content = "<?php\n";
@@ -230,7 +289,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['install'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ColorLux - Database Installer</title>
+    <title>Rakesh Verma Art Studio - Database Installer</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -382,7 +441,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['install'])) {
 
 <div class="installer-card">
     <div class="header">
-        <h1>ColorLux Setup Wizard</h1>
+        <h1>Rakesh Verma Art Studio Setup Wizard</h1>
         <p>Configure your database and administrator account to proceed</p>
     </div>
 

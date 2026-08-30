@@ -124,6 +124,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (data.status === 'success') {
                     showFormMessage(messageBox, data.message, 'success');
                     form.reset();
+                    if (data.whatsapp_url) {
+                        setTimeout(() => {
+                            window.open(data.whatsapp_url, '_blank');
+                        }, 1200);
+                    }
                 } else {
                     showFormMessage(messageBox, data.message || 'Something went wrong. Please try again.', 'error');
                 }

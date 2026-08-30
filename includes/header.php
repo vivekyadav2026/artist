@@ -3,10 +3,10 @@ require_once __DIR__ . '/../db.php';
 
 // Fetch global settings for header if not already defined
 if (!isset($phone_number)) {
-    $phone_number = getSetting('contact_phone', '+91 98765 43210');
+    $phone_number = getSetting('contact_phone', '+91 78893 50684');
 }
 if (!isset($whatsapp_url)) {
-    $whatsapp_raw = getSetting('contact_whatsapp', '919876543210');
+    $whatsapp_raw = getSetting('contact_whatsapp', '917889350684');
     $whatsapp_url = "https://wa.me/" . preg_replace('/[^0-9]/', '', $whatsapp_raw);
 }
 
@@ -53,7 +53,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                     <li class="<?php echo ($current_page == 'portfolio.php') ? 'active' : ''; ?>"><a href="portfolio.php">Portfolio</a></li>
                     <li class="<?php echo ($current_page == 'contact.php') ? 'active' : ''; ?>"><a href="contact.php">Contact</a></li>
                 </ul>
-                <a href="contact.php" class="btn-nav-cta">Request Commission</a>
+                <!-- <a href="contact.php" class="btn-nav-cta">Request Commission</a> -->
             </nav>
             <button class="mobile-nav-toggle" aria-label="Toggle Menu">&#9776;</button>
         </div>

@@ -12,6 +12,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'add') {
     $title = trim(strip_tags($_POST['title']));
     $category = trim(strip_tags($_POST['category']));
     
+    $medium = isset($_POST['medium']) ? trim(strip_tags($_POST['medium'])) : '';
+    $size = isset($_POST['size']) ? trim(strip_tags($_POST['size'])) : '';
+    $year = isset($_POST['year']) ? trim(strip_tags($_POST['year'])) : '';
+    $price = isset($_POST['price']) ? trim(strip_tags($_POST['price'])) : '';
+    $available = isset($_POST['available']) ? trim(strip_tags($_POST['available'])) : 'Available';
+    
     if (empty($title) || empty($category)) {
         $message = "Please provide both project title and category.";
         $message_type = "error";
@@ -40,8 +46,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'add') {
             if (move_uploaded_file($file_tmp, $dest_path)) {
                 try {
                     $db_path = 'uploads/gallery/' . $new_file_name;
-                    $stmt = $pdo->prepare("INSERT INTO gallery (title, category, image_path) VALUES (?, ?, ?)");
-                    $stmt->execute([$title, $category, $db_path]);
+                    $stmt = $pdo->prepare("INSERT INTO gallery (title, category, image_path, medium, size, year, price, available) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                    $stmt->execute([$title, $category, $db_path, $medium, $size, $year, $price, $available]);
                     
                     $message = "Project image uploaded and added to gallery successfully!";
                     $message_type = "success";
@@ -85,6 +91,11 @@ if ($action === 'delete' && $id > 0) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'edit' && $id > 0) {
     $title = trim(strip_tags($_POST['title']));
     $category = trim(strip_tags($_POST['category']));
+    $medium = isset($_POST['medium']) ? trim(strip_tags($_POST['medium'])) : '';
+    $size = isset($_POST['size']) ? trim(strip_tags($_POST['size'])) : '';
+    $year = isset($_POST['year']) ? trim(strip_tags($_POST['year'])) : '';
+    $price = isset($_POST['price']) ? trim(strip_tags($_POST['price'])) : '';
+    $available = isset($_POST['available']) ? trim(strip_tags($_POST['available'])) : 'Available';
     
     if (empty($title) || empty($category)) {
         $message = "Please provide both project title and category.";
@@ -132,11 +143,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'edit' && $id > 0) {
         if ($message_type !== 'error') {
             try {
                 if (!empty($image_path)) {
-                    $stmt = $pdo->prepare("UPDATE gallery SET title = ?, category = ?, image_path = ? WHERE id = ?");
-                    $stmt->execute([$title, $category, $image_path, $id]);
+                    $stmt = $pdo->prepare("UPDATE gallery SET title = ?, category = ?, image_path = ?, medium = ?, size = ?, year = ?, price = ?, available = ? WHERE id = ?");
+                    $stmt->execute([$title, $category, $image_path, $medium, $size, $year, $price, $available, $id]);
                 } else {
-                    $stmt = $pdo->prepare("UPDATE gallery SET title = ?, category = ? WHERE id = ?");
-                    $stmt->execute([$title, $category, $id]);
+                    $stmt = $pdo->prepare("UPDATE gallery SET title = ?, category = ?, medium = ?, size = ?, year = ?, price = ?, available = ? WHERE id = ?");
+                    $stmt->execute([$title, $category, $medium, $size, $year, $price, $available, $id]);
                 }
                 
                 $message = "Gallery item updated successfully!";
@@ -185,8 +196,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'edit' && $id > 0) {
                 <thead>
                     <tr>
                         <th>Image Preview</th>
-                        <th>Project Name / Title</th>
+                        <th>Artwork Details</th>
                         <th>Category</th>
+                        <th>Price &amp; Status</th>
                         <th>Uploaded Date</th>
                         <th>Actions</th>
                     </tr>
@@ -201,8 +213,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'edit' && $id > 0) {
                                     <div class="image-preview" style="background:#334155; display:flex; align-items:center; justify-content:center; color:white; font-size:12px; font-weight:700;">📸 Image</div>
                                 <?php endif; ?>
                             </td>
-                            <td><strong><?php echo htmlspecialchars($item['title']); ?></strong></td>
+                            <td>
+                                <strong><?php echo htmlspecialchars($item['title']); ?></strong><br>
+                                <span style="font-size:12px; color:var(--text-muted);">
+                                    <?php echo htmlspecialchars(isset($item['medium']) ? $item['medium'] : 'No Medium'); ?> • 
+                                    <?php echo htmlspecialchars(isset($item['size']) ? $item['size'] : 'No Size'); ?> • 
+                                    <?php echo htmlspecialchars(isset($item['year']) ? $item['year'] : 'No Year'); ?>
+                                </span>
+                            </td>
                             <td><span class="status-pill contacted" style="background-color:#e0f2fe; color:#0369a1;"><?php echo htmlspecialchars($item['category']); ?></span></td>
+                            <td>
+                                <strong><?php echo htmlspecialchars(isset($item['price']) && $item['price'] !== '' ? $item['price'] : 'Inquire'); ?></strong><br>
+                                <span style="font-size: 11px; font-weight: 700; color: <?php echo (isset($item['available']) && strtolower($item['available']) === 'sold') ? '#b91c1c' : ((isset($item['available']) && strtolower($item['available']) === 'reserved') ? '#d97706' : '#15803d'); ?>;">
+                                    ● <?php echo htmlspecialchars(isset($item['available']) ? $item['available'] : 'Available'); ?>
+                                </span>
+                            </td>
                             <td><?php echo date('d M Y, h:i A', strtotime($item['created_at'])); ?></td>
                             <td>
                                 <div style="display:flex; gap:6px;">
@@ -223,17 +248,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'edit' && $id > 0) {
         <form method="POST" action="gallery.php?action=add" enctype="multipart/form-data">
             <div class="form-grid">
                 <div class="admin-form-group">
-                    <label for="title">Project / Work Title *</label>
-                    <input type="text" id="title" name="title" class="admin-form-control" placeholder="e.g. Living Room Texture, Building Exterior Shield" required>
+                    <label for="title">Work Title *</label>
+                    <input type="text" id="title" name="title" class="admin-form-control" placeholder="e.g. Ember Triangles I" required>
                 </div>
                 <div class="admin-form-group">
                     <label for="category">Category *</label>
                     <select id="category" name="category" class="admin-form-control" required>
                         <option value="">Select Category</option>
-                        <option value="Interior">Interior Painting</option>
-                        <option value="Exterior">Exterior Painting</option>
-                        <option value="Texture">Texture Design</option>
-                        <option value="Commercial">Commercial / Office</option>
+                        <option value="Interior">Teal &amp; Cool Tones</option>
+                        <option value="Exterior">Orange &amp; Red Tones</option>
+                        <option value="Texture">Textured Acrylics</option>
+                        <option value="Commercial">Canvas Prints</option>
+                    </select>
+                </div>
+                <div class="admin-form-group">
+                    <label for="medium">Medium</label>
+                    <input type="text" id="medium" name="medium" class="admin-form-control" placeholder="e.g. Acrylic on Linen Canvas">
+                </div>
+                <div class="admin-form-group">
+                    <label for="size">Size</label>
+                    <input type="text" id="size" name="size" class="admin-form-control" placeholder="e.g. 36 x 48 inches">
+                </div>
+                <div class="admin-form-group">
+                    <label for="year">Year</label>
+                    <input type="text" id="year" name="year" class="admin-form-control" placeholder="e.g. 2026">
+                </div>
+                <div class="admin-form-group">
+                    <label for="price">Price</label>
+                    <input type="text" id="price" name="price" class="admin-form-control" placeholder="e.g. $1,200 or Inquire">
+                </div>
+                <div class="admin-form-group">
+                    <label for="available">Availability</label>
+                    <select id="available" name="available" class="admin-form-control">
+                        <option value="Available">Available</option>
+                        <option value="Sold">Sold</option>
+                        <option value="Reserved">Reserved</option>
                     </select>
                 </div>
             </div>
@@ -259,7 +308,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'edit' && $id > 0) {
         <form method="POST" action="gallery.php?action=edit&id=<?php echo $id; ?>" enctype="multipart/form-data">
             <div class="form-grid">
                 <div class="admin-form-group">
-                    <label for="title">Project / Work Title *</label>
+                    <label for="title">Work Title *</label>
                     <input type="text" id="title" name="title" class="admin-form-control" value="<?php echo htmlspecialchars($item['title']); ?>" required>
                 </div>
                 <div class="admin-form-group">
@@ -270,6 +319,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'edit' && $id > 0) {
                         <option value="Exterior" <?php echo (strtolower($item['category']) === 'exterior') ? 'selected' : ''; ?>>Orange &amp; Red Tones</option>
                         <option value="Texture" <?php echo (strtolower($item['category']) === 'texture') ? 'selected' : ''; ?>>Textured Acrylics</option>
                         <option value="Commercial" <?php echo (strtolower($item['category']) === 'commercial') ? 'selected' : ''; ?>>Canvas Prints</option>
+                    </select>
+                </div>
+                <div class="admin-form-group">
+                    <label for="medium">Medium</label>
+                    <input type="text" id="medium" name="medium" class="admin-form-control" value="<?php echo htmlspecialchars(isset($item['medium']) ? $item['medium'] : ''); ?>" placeholder="e.g. Acrylic on Linen Canvas">
+                </div>
+                <div class="admin-form-group">
+                    <label for="size">Size</label>
+                    <input type="text" id="size" name="size" class="admin-form-control" value="<?php echo htmlspecialchars(isset($item['size']) ? $item['size'] : ''); ?>" placeholder="e.g. 36 x 48 inches">
+                </div>
+                <div class="admin-form-group">
+                    <label for="year">Year</label>
+                    <input type="text" id="year" name="year" class="admin-form-control" value="<?php echo htmlspecialchars(isset($item['year']) ? $item['year'] : ''); ?>" placeholder="e.g. 2026">
+                </div>
+                <div class="admin-form-group">
+                    <label for="price">Price</label>
+                    <input type="text" id="price" name="price" class="admin-form-control" value="<?php echo htmlspecialchars(isset($item['price']) ? $item['price'] : ''); ?>" placeholder="e.g. $1,200 or Inquire">
+                </div>
+                <div class="admin-form-group">
+                    <label for="available">Availability</label>
+                    <select id="available" name="available" class="admin-form-control">
+                        <option value="Available" <?php echo (isset($item['available']) && $item['available'] === 'Available') ? 'selected' : ''; ?>>Available</option>
+                        <option value="Sold" <?php echo (isset($item['available']) && $item['available'] === 'Sold') ? 'selected' : ''; ?>>Sold</option>
+                        <option value="Reserved" <?php echo (isset($item['available']) && $item['available'] === 'Reserved') ? 'selected' : ''; ?>>Reserved</option>
                     </select>
                 </div>
             </div>

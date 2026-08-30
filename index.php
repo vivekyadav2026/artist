@@ -34,12 +34,12 @@ try {
 }
 
 // Fetch service areas array
-$service_areas_raw = getSetting('service_areas', 'Delhi, Noida, Gurgaon, Ghaziabad, Faridabad');
+$service_areas_raw = getSetting('service_areas', 'Mumbai, Delhi NCR, Bengaluru, Hyderabad, Chennai, Kolkata, Pune, All India Delivery');
 $service_areas = array_map('trim', explode(',', $service_areas_raw));
 
 // Dynamic Phone & Whatsapp links
-$phone_number = getSetting('contact_phone', '+91 98765 43210');
-$whatsapp_raw = getSetting('contact_whatsapp', '919876543210');
+$phone_number = getSetting('contact_phone', '+91 78893 50684');
+$whatsapp_raw = getSetting('contact_whatsapp', '917889350684');
 $whatsapp_url = "https://wa.me/" . preg_replace('/[^0-9]/', '', $whatsapp_raw);
 
 ?>
@@ -56,7 +56,7 @@ include __DIR__ . '/includes/header.php';
                 <p><?php echo htmlspecialchars(getSetting('hero_subheading', 'Explore original hand-signed acrylic canvas works and geometric triangle series exploring depths, color transparency, and layered rhythm by Rakesh Verma.')); ?></p>
                 <div class="hero-actions">
                     <a href="portfolio.php" class="btn btn-primary">View Portfolio</a>
-                    <a href="contact.php" class="btn btn-outline">Commission Art</a>
+                    <!-- <a href="contact.php" class="btn btn-outline">Commission Art</a> -->
                 </div>
             </div>
             
@@ -105,7 +105,7 @@ include __DIR__ . '/includes/header.php';
             <div class="about-images-collage">
                 <div class="about-img-main" style="width: 85%; height: 380px; overflow: hidden; border-radius: 12px; background: #e2e8f0;">
                     <?php if (file_exists(__DIR__ . '/assets/images/rakesh-verma.jpg')): ?>
-                        <img src="assets/images/rakesh-verma.jpg" style="width:100%; height:100%; object-fit:cover;" alt="Rakesh Verma portrait">
+                        <img src="assets/images/rakesh-verma.jpg?v=<?php echo filemtime(__DIR__ . '/assets/images/rakesh-verma.jpg'); ?>" style="width:100%; height:100%; object-fit:cover; object-position:top;" alt="Rakesh Verma portrait">
                     <?php elseif (file_exists(__DIR__ . '/assets/images/service-interior.jpg')): ?>
                         <img src="assets/images/service-interior.jpg" style="width:100%; height:100%; object-fit:cover;" alt="About Us banner image">
                     <?php else: ?>
@@ -115,7 +115,7 @@ include __DIR__ . '/includes/header.php';
                     <?php endif; ?>
                 </div>
                 <div class="about-img-badge">
-                    <h4>10+</h4>
+                    <h4><?php echo htmlspecialchars(getSetting('stat_experience', '20+')); ?></h4>
                     <p>Years of Delivering Brilliance</p>
                 </div>
             </div>
@@ -184,7 +184,7 @@ include __DIR__ . '/includes/header.php';
             <div class="section-header">
                 <span class="badge">What We Do</span>
                 <h2>Our Art Collections</h2>
-                <p>Explore signed acrylic canvas series, textured spatula patterns, and customized art commissions.</p>
+                <p>Explore signed acrylic canvas series and textured spatula patterns.</p>
             </div>
             
             <div class="services-grid">
@@ -231,7 +231,7 @@ include __DIR__ . '/includes/header.php';
             </div>
             
             <div class="enquiry-row-text">
-                <h2>Acquire Original Canvas Art &amp; Custom Commissions</h2>
+                <h2>Acquire Original Canvas Art</h2>
                 <p>Contact the artist directly to check painting dimensions, pricing, and framing options. We offer digital visualizations showing how the abstract canvas will look on your living room walls before finalizing the purchase!</p>
                 <div style="display:flex; gap:15px; flex-wrap:wrap;">
                     <a href="tel:<?php echo htmlspecialchars($phone_number); ?>" class="btn btn-accent">Call: <?php echo htmlspecialchars($phone_number); ?></a>
@@ -263,9 +263,23 @@ include __DIR__ . '/includes/header.php';
                 <?php if (empty($gallery)): ?>
                     <p style="grid-column: span 3; text-align: center; color: var(--text-light);">No project gallery images uploaded yet.</p>
                 <?php else: ?>
-                    <?php foreach($gallery as $item): ?>
+                    <?php foreach($gallery as $item): 
+                        // Construct direct WhatsApp enquiry link
+                        $whatsapp_raw = getSetting('contact_whatsapp', '917889350684');
+                        $whatsapp_num = preg_replace('/[^0-9]/', '', $whatsapp_raw);
+                        
+                        $artwork_msg = "Hello Rakesh Verma,\n\n";
+                        $artwork_msg .= "I am interested in acquiring your artwork: *" . $item['title'] . "*\n";
+                        $artwork_msg .= "*Medium*: " . ($item['medium'] ?: '—') . "\n";
+                        $artwork_msg .= "*Size*: " . ($item['size'] ?: '—') . "\n";
+                        $artwork_msg .= "*Price*: " . ($item['price'] ?: 'Inquire') . "\n";
+                        $artwork_msg .= "*Availability*: " . ($item['available'] ?: 'Available') . "\n\n";
+                        $artwork_msg .= "Please let me know how to proceed.";
+                        
+                        $artwork_wa_url = "https://wa.me/" . $whatsapp_num . "?text=" . urlencode($artwork_msg);
+                    ?>
                         <div class="gallery-item" data-category="<?php echo htmlspecialchars(strtolower($item['category'])); ?>" style="padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: white;">
-                            <div class="gallery-item-inner" style="position: relative; overflow: hidden; aspect-ratio: 4/3; border-radius: 4px;">
+                            <div class="gallery-item-inner" style="position: relative; overflow: hidden; aspect-ratio: 4/3; height: auto !important; border-radius: 4px;">
                                 <?php if (!empty($item['image_path']) && file_exists(__DIR__ . '/' . $item['image_path'])): ?>
                                     <img src="<?php echo htmlspecialchars($item['image_path']); ?>" alt="<?php echo htmlspecialchars($item['title']); ?>" style="width:100%; height:100%; object-fit:cover; display:block;">
                                 <?php else: ?>
@@ -275,9 +289,17 @@ include __DIR__ . '/includes/header.php';
                                 <?php endif; ?>
                             </div>
                             <div class="gallery-info" style="padding: 12px 2px 2px 2px;">
-                                <h4 style="font-size: 16px; margin: 0 0 6px 0; font-family: var(--font-heading); color: var(--text-ink); line-height: 1.3;"><?php echo htmlspecialchars($item['title']); ?></h4>
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
-                                    <span style="font-size: 11px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em;">
+                                <h4 style="font-size: 17px; margin: 0 0 6px 0; font-family: var(--font-heading); color: var(--text-ink); line-height: 1.3;"><?php echo htmlspecialchars($item['title']); ?></h4>
+                                
+                                <!-- Portfolio Details -->
+                                <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px; line-height: 1.5; display: flex; flex-direction: column; gap: 2px;">
+                                    <span><strong>Medium:</strong> <?php echo htmlspecialchars($item['medium'] ?: '—'); ?></span>
+                                    <span><strong>Size:</strong> <?php echo htmlspecialchars($item['size'] ?: '—'); ?></span>
+                                    <span><strong>Year:</strong> <?php echo htmlspecialchars($item['year'] ?: '—'); ?></span>
+                                </div>
+
+                                <div style="font-size: 11px; margin-bottom: 10px;">
+                                    <span style="background-color: #f1f5f9; padding: 3px 8px; border-radius: 12px; text-transform: uppercase; font-weight: 700; color: #475569; font-size: 9.5px; letter-spacing: 0.03em;">
                                         <?php 
                                             if (strtolower($item['category']) === 'interior') echo 'Teal & Cool Tones';
                                             elseif (strtolower($item['category']) === 'exterior') echo 'Orange & Red Tones';
@@ -286,7 +308,18 @@ include __DIR__ . '/includes/header.php';
                                             else echo htmlspecialchars($item['category']);
                                         ?>
                                     </span>
-                                    <a href="contact.php?artwork=<?php echo urlencode($item['title']); ?>" style="font-size: 12px; font-weight: 700; color: var(--primary); text-decoration: none; display: flex; align-items: center;">Inquire &rarr;</a>
+                                </div>
+
+                                <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 8px; border-top: 1px solid var(--border); padding-top: 10px;">
+                                    <div>
+                                        <span style="font-size: 14px; font-weight: 700; color: var(--primary); display: block; line-height: 1.2;">
+                                            <?php echo htmlspecialchars(!empty($item['price']) ? $item['price'] : 'Inquire'); ?>
+                                        </span>
+                                        <span style="font-size: 9.5px; font-weight: 700; text-transform: uppercase; color: <?php echo (isset($item['available']) && strtolower($item['available']) === 'sold') ? '#b91c1c' : ((isset($item['available']) && strtolower($item['available']) === 'reserved') ? '#d97706' : '#15803d'); ?>;">
+                                            ● <?php echo htmlspecialchars(isset($item['available']) ? $item['available'] : 'Available'); ?>
+                                        </span>
+                                    </div>
+                                    <a href="<?php echo htmlspecialchars($artwork_wa_url); ?>" target="_blank" style="font-size: 12px; font-weight: 700; color: var(--primary); text-decoration: none; display: flex; align-items: center; padding-bottom: 2px;">Inquire &rarr;</a>
                                 </div>
                             </div>
                         </div>
@@ -311,11 +344,13 @@ include __DIR__ . '/includes/header.php';
                     <h3><?php echo htmlspecialchars(getSetting('why_collect_title_1', 'Certified Originality')); ?></h3>
                     <p><?php echo htmlspecialchars(getSetting('why_collect_desc_1', 'Each original painting is hand-signed by Rakesh Verma and comes with a registered, stamped Certificate of Authenticity.')); ?></p>
                 </div>
+                <!--
                 <div class="feature-card">
                     <div class="feature-card-icon">👥</div>
                     <h3><?php echo htmlspecialchars(getSetting('why_collect_title_2', 'Bespoke Art Sizing')); ?></h3>
                     <p><?php echo htmlspecialchars(getSetting('why_collect_desc_2', 'Commission works designed specifically to complement the dimensions and color schemes of your residential or commercial walls.')); ?></p>
                 </div>
+                -->
                 <div class="feature-card">
                     <div class="feature-card-icon">⭐</div>
                     <h3><?php echo htmlspecialchars(getSetting('why_collect_title_3', 'Archival Quality Materials')); ?></h3>
@@ -407,7 +442,7 @@ include __DIR__ . '/includes/header.php';
         </div>
     </section>
 
-    <!-- COURSE WORKFLOW / PROCESS SECTION -->
+    <!-- COURSE WORKFLOW / PROCESS SECTION (Commented Out)
     <section class="py-section bg-light">
         <div class="container">
             <div class="section-header">
@@ -440,13 +475,14 @@ include __DIR__ . '/includes/header.php';
             </div>
         </div>
     </section>
+    -->
 
     <!-- SERVICE AREAS TAG CLOUD SECTION -->
     <section class="py-section areas-section">
         <div class="container text-center">
             <span class="badge" style="background:rgba(255,255,255,0.15); color:#ffffff; margin-bottom: 20px;">📍 Locations</span>
-            <h2 style="margin-bottom: 12px; color: white;">Art Gallery &amp; Worldwide Shipping</h2>
-            <p style="margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto;">We offer prompt on-site art consultations, framing recommendations, and shipping across the following regions:</p>
+            <h2 style="margin-bottom: 12px; color: white;">Art Gallery &amp; All India Delivery</h2>
+            <p style="margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto;">We offer safe packaging, transit insurance, and doorstep delivery across all states and Union Territories in India:</p>
             
             <div class="areas-grid">
                 <?php foreach($service_areas as $area): ?>
@@ -466,7 +502,7 @@ include __DIR__ . '/includes/header.php';
                 <div class="contact-details">
                     <span class="badge">Get in Touch</span>
                     <h2>Talk Directly to the Artist</h2>
-                    <p>Have questions about canvas dimensions, custom abstract prints, or commissioning a geometric series? Send us a message or schedule a callback.</p>
+                    <p>Have questions about canvas dimensions, custom abstract prints, or original releases? Send us a message or schedule a callback.</p>
                     
                     <div class="contact-info-list">
                         <div class="contact-info-item">
@@ -487,7 +523,7 @@ include __DIR__ . '/includes/header.php';
                             <div class="contact-info-icon">✉️</div>
                             <div class="contact-info-content">
                                 <h4>Email Enquiries</h4>
-                                <p><?php echo htmlspecialchars(getSetting('contact_email', 'info@colorluxpainters.com')); ?></p>
+                                <p><?php echo htmlspecialchars(getSetting('contact_email', 'contact@rakeshverma.art')); ?></p>
                             </div>
                         </div>
                         <div class="contact-info-item">

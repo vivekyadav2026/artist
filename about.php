@@ -18,7 +18,7 @@ include __DIR__ . '/includes/header.php';
         <div class="about-collage">
             <div class="about-frame">
                 <?php if (file_exists(__DIR__ . '/assets/images/rakesh-verma.jpg')): ?>
-                    <img src="assets/images/rakesh-verma.jpg" alt="Rakesh Verma Profile Portrait">
+                    <img src="assets/images/rakesh-verma.jpg?v=<?php echo filemtime(__DIR__ . '/assets/images/rakesh-verma.jpg'); ?>" alt="Rakesh Verma Profile Portrait">
                 <?php elseif (file_exists(__DIR__ . '/assets/images/gallery-2.jpg')): ?>
                     <img src="assets/images/gallery-2.jpg" alt="Rakesh Verma Studio Profile Visual">
                 <?php else: ?>
@@ -35,7 +35,7 @@ include __DIR__ . '/includes/header.php';
             
             <div class="about-features" style="margin-top: 30px;">
                 <div class="about-feature-item">
-                    <span>✔</span> 10+ Years Dedicated Studio Work
+                    <span>✔</span> <?php echo htmlspecialchars(getSetting('stat_experience', '20+')); ?> Years Dedicated Studio Work
                 </div>
                 <div class="about-feature-item">
                     <span>✔</span> Premium Canvas Curation
@@ -47,6 +47,34 @@ include __DIR__ . '/includes/header.php';
                     <span>✔</span> Stretched or Rolled Canvas Delivery
                 </div>
             </div>
+        </div>
+    </div>
+</section>
+
+<!-- PROFESSIONAL BIOGRAPHY GRID -->
+<section class="py-section" style="border-top: 1px solid var(--border); padding-top: 50px; background-color: var(--paper-deep);">
+    <div class="container">
+        <div class="features-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; display: grid;">
+            <?php if (!empty(getSetting('artist_qualification'))): ?>
+            <div class="feature-card" style="background: white; padding: 25px; border-radius: var(--radius-sm); border: 1px solid var(--border);">
+                <h3 style="font-size: 20px; margin-bottom: 12px; font-family: var(--font-heading); color: var(--primary);">🎓 Qualifications</h3>
+                <p style="font-size: 14.5px; line-height: 1.6; color: var(--text-muted);"><?php echo nl2br(htmlspecialchars(getSetting('artist_qualification'))); ?></p>
+            </div>
+            <?php endif; ?>
+
+            <?php if (!empty(getSetting('artist_awards'))): ?>
+            <div class="feature-card" style="background: white; padding: 25px; border-radius: var(--radius-sm); border: 1px solid var(--border);">
+                <h3 style="font-size: 20px; margin-bottom: 12px; font-family: var(--font-heading); color: var(--primary);">🏆 Awards &amp; Recognitions</h3>
+                <p style="font-size: 14.5px; line-height: 1.6; color: var(--text-muted);"><?php echo nl2br(htmlspecialchars(getSetting('artist_awards'))); ?></p>
+            </div>
+            <?php endif; ?>
+
+            <?php if (!empty(getSetting('artist_achievements'))): ?>
+            <div class="feature-card" style="background: white; padding: 25px; border-radius: var(--radius-sm); border: 1px solid var(--border);">
+                <h3 style="font-size: 20px; margin-bottom: 12px; font-family: var(--font-heading); color: var(--primary);">✨ Key Achievements</h3>
+                <p style="font-size: 14.5px; line-height: 1.6; color: var(--text-muted);"><?php echo nl2br(htmlspecialchars(getSetting('artist_achievements'))); ?></p>
+            </div>
+            <?php endif; ?>
         </div>
     </div>
 </section>

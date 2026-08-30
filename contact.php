@@ -24,8 +24,8 @@ include __DIR__ . '/includes/header.php';
 <section class="subpage-banner">
     <div class="container text-center">
         <span class="hero-tagline">Acquisitions</span>
-        <h1>Contact &amp; Commission</h1>
-        <p>Send a message to discuss original canvas sales, custom murals, or framing estimates.</p>
+        <h1>Contact Us</h1>
+        <p>Send a message to discuss original canvas sales, custom paintings, or framing estimates.</p>
     </div>
 </section>
 
@@ -36,7 +36,7 @@ include __DIR__ . '/includes/header.php';
             <div class="contact-details">
                 <span class="badge" style="background-color: rgba(193, 68, 14, 0.08); color: var(--primary);">Get in Touch</span>
                 <h2 style="margin-top: 10px;">Talk Directly to the Artist</h2>
-                <p>Have questions about canvas dimensions, custom abstract prints, or commissioning a geometric series? Send us a message or schedule a callback.</p>
+                <p>Have questions about canvas dimensions, custom abstract prints, or original releases? Send us a message or schedule a callback.</p>
                 
                 <div class="contact-info-list" style="margin-top: 30px;">
                     <div class="contact-info-item">
@@ -57,7 +57,7 @@ include __DIR__ . '/includes/header.php';
                         <div class="contact-info-icon">✉️</div>
                         <div class="contact-info-content">
                             <h4>Email Enquiries</h4>
-                            <p><?php echo htmlspecialchars(getSetting('contact_email', 'info@colorluxpainters.com')); ?></p>
+                            <p><?php echo htmlspecialchars(getSetting('contact_email', 'contact@rakeshverma.art')); ?></p>
                         </div>
                     </div>
                     <div class="contact-info-item">
@@ -103,7 +103,7 @@ include __DIR__ . '/includes/header.php';
                                 <?php echo htmlspecialchars($srv['title']); ?>
                             </option>
                         <?php endforeach; ?>
-                        <option value="Custom Commissions" <?php echo ($prefilled_service === 'Custom Commissions') ? 'selected' : ''; ?>>Custom Commissions</option>
+                        <!-- <option value="Custom Commissions" <?php echo ($prefilled_service === 'Custom Commissions') ? 'selected' : ''; ?>>Custom Commissions</option> -->
                     </select>
                     
                     <textarea name="message" class="form-input" placeholder="Type your message details here..." required style="width:100%; height:120px; padding:12px; border:1px solid var(--border); border-radius:var(--radius-sm); margin-bottom: 15px; resize:vertical;"><?php echo htmlspecialchars($message_placeholder); ?></textarea>

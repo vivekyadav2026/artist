@@ -15,9 +15,9 @@ include __DIR__ . '/includes/header.php';
 <!-- BREADCRUMB / HERO SUBPAGE BANNER -->
 <section class="subpage-banner">
     <div class="container text-center">
-        <span class="hero-tagline">What We Offer</span>
+        <span class="hero-tagline">Curated Series</span>
         <h1>Art Collections &amp; Services</h1>
-        <p>Original canvas releases, tailored interior size commissions, and hotel/corporate projects.</p>
+        <p>Original canvas releases and hotel/corporate projects.</p>
     </div>
 </section>
 
@@ -28,7 +28,12 @@ include __DIR__ . '/includes/header.php';
             <?php if (empty($services)): ?>
                 <p style="grid-column: span 2; text-align: center; color: var(--text-light); padding: 40px 0;">No collections configured yet.</p>
             <?php else: ?>
-                <?php foreach($services as $srv): ?>
+                <?php foreach($services as $srv): 
+                    $whatsapp_raw = getSetting('contact_whatsapp', '917889350684');
+                    $whatsapp_num = preg_replace('/[^0-9]/', '', $whatsapp_raw);
+                    $collection_msg = "Hello Rakesh Verma,\n\nI am interested in your art collection: *" . $srv['title'] . "*.\n\nPlease share more details and availability.";
+                    $collection_wa_url = "https://wa.me/" . $whatsapp_num . "?text=" . urlencode($collection_msg);
+                ?>
                     <div class="service-card">
                         <div class="service-img-wrapper">
                             <?php if (!empty($srv['image_path']) && file_exists(__DIR__ . '/' . $srv['image_path'])): ?>
@@ -43,7 +48,7 @@ include __DIR__ . '/includes/header.php';
                             <h3><?php echo htmlspecialchars($srv['title']); ?></h3>
                             <p><?php echo htmlspecialchars($srv['description']); ?></p>
                             <div class="service-footer">
-                                <a href="contact.php?service=<?php echo urlencode($srv['title']); ?>" class="btn btn-primary" style="width: 100%; text-align: center; text-transform: uppercase; font-size: 13px; font-weight:700;">Inquire on this Collection</a>
+                                <a href="<?php echo htmlspecialchars($collection_wa_url); ?>" target="_blank" class="btn btn-primary" style="width: 100%; text-align: center; text-transform: uppercase; font-size: 13px; font-weight:700;">Inquire on this Collection</a>
                             </div>
                         </div>
                     </div>
@@ -53,7 +58,7 @@ include __DIR__ . '/includes/header.php';
     </div>
 </section>
 
-<!-- FAQS ON COMMISSIONS -->
+<!-- FAQS ON COMMISSIONS (Commented Out)
 <section class="py-section bg-light" style="border-top: 1px solid var(--border);">
     <div class="container">
         <div class="section-header">
@@ -78,6 +83,7 @@ include __DIR__ . '/includes/header.php';
         </div>
     </div>
 </section>
+-->
 
 <?php
 include __DIR__ . '/includes/footer.php';

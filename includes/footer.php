@@ -1,10 +1,10 @@
 <?php
 // Ensure variables are defined
 if (!isset($phone_number)) {
-    $phone_number = getSetting('contact_phone', '+91 98765 43210');
+    $phone_number = getSetting('contact_phone', '+91 78893 50684');
 }
 if (!isset($whatsapp_url)) {
-    $whatsapp_raw = getSetting('contact_whatsapp', '919876543210');
+    $whatsapp_raw = getSetting('contact_whatsapp', '917889350684');
     $whatsapp_url = "https://wa.me/" . preg_replace('/[^0-9]/', '', $whatsapp_raw);
 }
 ?>
@@ -31,7 +31,7 @@ if (!isset($whatsapp_url)) {
                     <li><a href="about.php">About Us</a></li>
                     <li><a href="collections.php">Art Collections</a></li>
                     <li><a href="portfolio.php">Artwork Portfolio</a></li>
-                    <li><a href="contact.php">Contact &amp; Commission</a></li>
+                    <li><a href="contact.php">Contact Us</a></li>
                 </ul>
             </div>
             
@@ -39,8 +39,8 @@ if (!isset($whatsapp_url)) {
                 <h4>Our Collections</h4>
                 <ul class="footer-links">
                     <li><a href="collections.php">Original Canvas Paintings</a></li>
-                    <li><a href="collections.php">Custom Art Commissions</a></li>
-                    <li><a href="collections.php">Geometric &amp; Stencil Series</a></li>
+                    <!-- <li><a href="collections.php">Custom Art Commissions</a></li> -->
+                    <li><a href="collections.php">Geometric &amp; Triangle Series</a></li>
                     <li><a href="collections.php">Office &amp; Hotel Projects</a></li>
                 </ul>
             </div>
@@ -54,7 +54,7 @@ if (!isset($whatsapp_url)) {
                     </li>
                     <li>
                         <span>✉️</span>
-                        <span><?php echo htmlspecialchars(getSetting('contact_email', 'info@colorluxpainters.com')); ?></span>
+                        <span><?php echo htmlspecialchars(getSetting('contact_email', 'contact@rakeshverma.art')); ?></span>
                     </li>
                     <li>
                         <span>🏢</span>

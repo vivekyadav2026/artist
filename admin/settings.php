@@ -21,7 +21,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_settings'])) {
             'why_collect_title_2', 'why_collect_desc_2',
             'why_collect_title_3', 'why_collect_desc_3',
             'skill_stat_paintings', 'skill_stat_sold', 'skill_stat_collectors',
-            'instagram_reel_url'
+            'instagram_reel_url',
+            'artist_qualification', 'artist_awards', 'artist_achievements'
         ];
         
         $up_stmt = $pdo->prepare("UPDATE settings SET setting_value = ? WHERE setting_key = ?");
@@ -202,6 +203,23 @@ try {
                 <input type="text" id="why_choose_us_headline" name="why_choose_us_headline" class="admin-form-control" value="<?php echo htmlspecialchars(isset($settings['why_choose_us_headline']) ? $settings['why_choose_us_headline'] : ''); ?>" required>
             </div>
 
+            <div style="font-family:var(--font-heading); font-size:16px; font-weight:700; color:var(--primary); margin:25px 0 15px 0; border-bottom:2px solid var(--primary); padding-bottom:5px;">🎓 Professional Biography</div>
+
+            <div class="admin-form-group">
+                <label for="artist_qualification">Qualifications</label>
+                <textarea id="artist_qualification" name="artist_qualification" class="admin-form-control" style="height:60px;"><?php echo htmlspecialchars(isset($settings['artist_qualification']) ? $settings['artist_qualification'] : ''); ?></textarea>
+            </div>
+
+            <div class="admin-form-group">
+                <label for="artist_awards">Awards</label>
+                <textarea id="artist_awards" name="artist_awards" class="admin-form-control" style="height:60px;"><?php echo htmlspecialchars(isset($settings['artist_awards']) ? $settings['artist_awards'] : ''); ?></textarea>
+            </div>
+
+            <div class="admin-form-group">
+                <label for="artist_achievements">Achievements</label>
+                <textarea id="artist_achievements" name="artist_achievements" class="admin-form-control" style="height:60px;"><?php echo htmlspecialchars(isset($settings['artist_achievements']) ? $settings['artist_achievements'] : ''); ?></textarea>
+            </div>
+
             <div style="font-family:var(--font-heading); font-size:16px; font-weight:700; color:var(--primary); margin:25px 0 15px 0; border-bottom:2px solid var(--primary); padding-bottom:5px;">🗺️ Google Map Embed</div>
 
             <div class="admin-form-group">
@@ -250,6 +268,7 @@ try {
                 <input type="text" id="skill_stat_collectors" name="skill_stat_collectors" class="admin-form-control" value="<?php echo htmlspecialchars(isset($settings['skill_stat_collectors']) ? $settings['skill_stat_collectors'] : '35+'); ?>" required>
             </div>
 
+            <!-- Commented out to prevent changes as requested
             <div style="font-family:var(--font-heading); font-size:16px; font-weight:700; color:var(--primary); margin:25px 0 15px 0; border-bottom:2px solid var(--primary); padding-bottom:5px;">✨ Homepage Highlights &amp; About Bullet Features</div>
 
             <div class="form-grid">
@@ -316,6 +335,7 @@ try {
                     <input type="text" id="why_collect_desc_3" name="why_collect_desc_3" class="admin-form-control" value="<?php echo htmlspecialchars(isset($settings['why_collect_desc_3']) ? $settings['why_collect_desc_3'] : 'Created using premium-grade linen canvas and fade-resistant pigment acrylics to guarantee lifetime durability without color degradation.'); ?>" required>
                 </div>
             </div>
+            -->
             <div style="font-family:var(--font-heading); font-size:16px; font-weight:700; color:var(--primary); margin:25px 0 15px 0; border-bottom:2px solid var(--primary); padding-bottom:5px;">🎥 Studio Video &amp; Reels Integration</div>
 
             <div class="admin-form-group" style="margin-bottom: 30px;">

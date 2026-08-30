@@ -37,9 +37,23 @@ include __DIR__ . '/includes/header.php';
             <?php if (empty($gallery)): ?>
                 <p style="grid-column: span 3; text-align: center; color: var(--text-light); padding: 40px 0;">No project gallery images uploaded yet.</p>
             <?php else: ?>
-                <?php foreach($gallery as $item): ?>
+                <?php foreach($gallery as $item): 
+                    // Construct direct WhatsApp enquiry link
+                    $whatsapp_raw = getSetting('contact_whatsapp', '917889350684');
+                    $whatsapp_num = preg_replace('/[^0-9]/', '', $whatsapp_raw);
+                    
+                    $artwork_msg = "Hello Rakesh Verma,\n\n";
+                    $artwork_msg .= "I am interested in acquiring your artwork: *" . $item['title'] . "*\n";
+                    $artwork_msg .= "*Medium*: " . ($item['medium'] ?: '—') . "\n";
+                    $artwork_msg .= "*Size*: " . ($item['size'] ?: '—') . "\n";
+                    $artwork_msg .= "*Price*: " . ($item['price'] ?: 'Inquire') . "\n";
+                    $artwork_msg .= "*Availability*: " . ($item['available'] ?: 'Available') . "\n\n";
+                    $artwork_msg .= "Please let me know how to proceed.";
+                    
+                    $artwork_wa_url = "https://wa.me/" . $whatsapp_num . "?text=" . urlencode($artwork_msg);
+                ?>
                     <div class="gallery-item" data-category="<?php echo htmlspecialchars(strtolower($item['category'])); ?>" style="padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: white;">
-                        <div class="gallery-item-inner" style="position: relative; overflow: hidden; aspect-ratio: 4/3; border-radius: 4px;">
+                        <div class="gallery-item-inner" style="position: relative; overflow: hidden; aspect-ratio: 4/3; height: auto !important; border-radius: 4px;">
                             <?php if (!empty($item['image_path']) && file_exists(__DIR__ . '/' . $item['image_path'])): ?>
                                 <img src="<?php echo htmlspecialchars($item['image_path']); ?>" alt="<?php echo htmlspecialchars($item['title']); ?>" style="width:100%; height:100%; object-fit:cover; display:block;">
                             <?php else: ?>
@@ -49,9 +63,17 @@ include __DIR__ . '/includes/header.php';
                             <?php endif; ?>
                         </div>
                         <div class="gallery-info" style="padding: 12px 2px 2px 2px;">
-                            <h4 style="font-size: 16px; margin: 0 0 6px 0; font-family: var(--font-heading); color: var(--text-ink); line-height: 1.3;"><?php echo htmlspecialchars($item['title']); ?></h4>
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
-                                <span style="font-size: 11px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em;">
+                            <h4 style="font-size: 17px; margin: 0 0 6px 0; font-family: var(--font-heading); color: var(--text-ink); line-height: 1.3;"><?php echo htmlspecialchars($item['title']); ?></h4>
+                            
+                            <!-- Portfolio Details -->
+                            <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px; line-height: 1.5; display: flex; flex-direction: column; gap: 2px;">
+                                <span><strong>Medium:</strong> <?php echo htmlspecialchars($item['medium'] ?: '—'); ?></span>
+                                <span><strong>Size:</strong> <?php echo htmlspecialchars($item['size'] ?: '—'); ?></span>
+                                <span><strong>Year:</strong> <?php echo htmlspecialchars($item['year'] ?: '—'); ?></span>
+                            </div>
+
+                            <div style="font-size: 11px; margin-bottom: 10px;">
+                                <span style="background-color: #f1f5f9; padding: 3px 8px; border-radius: 12px; text-transform: uppercase; font-weight: 700; color: #475569; font-size: 9.5px; letter-spacing: 0.03em;">
                                     <?php 
                                         if (strtolower($item['category']) === 'interior') echo 'Teal & Cool Tones';
                                         elseif (strtolower($item['category']) === 'exterior') echo 'Orange & Red Tones';
@@ -60,7 +82,18 @@ include __DIR__ . '/includes/header.php';
                                         else echo htmlspecialchars($item['category']);
                                     ?>
                                 </span>
-                                <a href="contact.php?artwork=<?php echo urlencode($item['title']); ?>" style="font-size: 12px; font-weight: 700; color: var(--primary); text-decoration: none; display: flex; align-items: center;">Inquire &rarr;</a>
+                            </div>
+
+                            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 8px; border-top: 1px solid var(--border); padding-top: 10px;">
+                                <div>
+                                    <span style="font-size: 14px; font-weight: 700; color: var(--primary); display: block; line-height: 1.2;">
+                                        <?php echo htmlspecialchars(!empty($item['price']) ? $item['price'] : 'Inquire'); ?>
+                                    </span>
+                                    <span style="font-size: 9.5px; font-weight: 700; text-transform: uppercase; color: <?php echo (isset($item['available']) && strtolower($item['available']) === 'sold') ? '#b91c1c' : ((isset($item['available']) && strtolower($item['available']) === 'reserved') ? '#d97706' : '#15803d'); ?>;">
+                                        ● <?php echo htmlspecialchars(isset($item['available']) ? $item['available'] : 'Available'); ?>
+                                    </span>
+                                </div>
+                                <a href="<?php echo htmlspecialchars($artwork_wa_url); ?>" target="_blank" style="font-size: 12px; font-weight: 700; color: var(--primary); text-decoration: none; display: flex; align-items: center; padding-bottom: 2px;">Inquire &rarr;</a>
                             </div>
                         </div>
                     </div>
