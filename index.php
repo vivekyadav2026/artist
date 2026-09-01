@@ -150,7 +150,7 @@ include __DIR__ . '/includes/header.php';
         <div class="container skills-wrapper">
             <div class="skills-content">
                 <h2>Our Skill What We Achieved</h2>
-                <p>Over the past 10 years, Rakesh Verma has consistently delivered fine art masterpieces. We measure our achievements in the emotional depth of each brush stroke and in the satisfaction of global art collectors who acquire our works.</p>
+                <p>Over the past 20 years, Rakesh Verma has consistently delivered fine art masterpieces. We measure our achievements in the emotional depth of each brush stroke and in the satisfaction of global art collectors who acquire our works.</p>
                 
                 <div class="skills-stats-grid">
                     <div class="skill-stat-box">
